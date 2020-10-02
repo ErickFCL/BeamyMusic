@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Beamy Music</title>
+    <link rel="icon" type="image/jpg" href="~/Img/play.png" />
+    <link rel="stylesheet" href="~/css/style3.css" />
+    <link rel="stylesheet" href="~/css/style4.css" />
+
+</head>
+<body>
+    <div class="container2">
+        <div class="page-wrapper chiller-theme toggled">
+            <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+                <i class="fas fa-bars"></i>
+            </a>
+            <nav id="sidebar" class="sidebar-wrapper">
+                <div class="sidebar-content">
+                    <div class="sidebar-brand">
+                        <a href="/Home/index">Beamy Music</a>
+                        <div id="close-sidebar">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    <div class="sidebar-header">
+                        <div class="user-pic">
+                            <img class="img-responsive img-rounded" src="~/Images/userNew.png" alt="User picture">
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">
+                                <strong>@ViewData["Message"]</strong>
+                            </span>
+                            <span class="user-role">Usuario</span>
+                            <span class="user-status">
+                                <i class="fa fa-circle"></i>
+                                <span style="color:green">Online</span>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- sidebar-header  -->
+                    <div class="sidebar-search">
+                        <div>
+                            <div class="input-group">
+                                <input type="text" class="form-control search-menu" placeholder="Search...">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- sidebar-search  -->
+                    <div class="sidebar-menu">
+                        <ul>
+                            <li class="header-menu">
+                                <span>General</span>
+                            </li>
+                            <li class="sidebar-dropdown">
+                                <a href="/Usuario/Editar">
+                                    <i class="fa fa-tachometer-alt"></i>
+                                    <span>Editar Usuario</span>
+                                </a>
+
+                            </li>
+                            <!--<li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span></span>
+
+                                </a>
+
+                            </li>
+
+                            <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fa fa-globe"></i>
+                                    <span>Maps</span>
+                                </a>
+
+
+                            </li>-->
+                            <li class="header-menu">
+                                <span>Play List</span>
+                            </li>
+                            <li>
+                                <a href="/Usuario/CancionesEscuchadas">
+                                    <i class="fa fa-book"></i>
+                                    <span>Canciones Escuchadas</span>
+
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Usuario/ListaDeReproduccion">
+                                    <i class="fa fa-calendar"></i>
+                                    <span>Lista de Reproducción</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Usuario/DetalleDeCancionActual">
+                                    <i class="fa fa-folder"></i>
+                                    <span>Detalle de canción actual</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Usuario/Albumes">
+                                    <i class="fa fa-folder"></i>
+                                    <span>Albumes</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- sidebar-menu  -->
+                </div>
+                <!-- sidebar-content  -->
+                <div class="sidebar-footer">
+                    <a href="#">
+                        <i class="fa fa-bell"></i>
+                        <span class="badge badge-pill badge-warning notification">Música gratis</span>
+                    </a>
+
+                    <a href="#">
+                        <i class="fa fa-cog"></i>
+                        <span class="badge-sonar"></span>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-power-off"></i>
+                    </a>
+                </div>
+            </nav>
+            <!-- sidebar-wrapper  -->
+            <main class="page-content">
+                <div class="container">
+                    <div class="item">
+                        <img src="~/Images/ThisIsHouse.jpg" alt="" class="item-img">
+                        <div class="item-text">
+                            <h3>Imagen 1</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur.</p>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <img src="~/Images/ThisIsHouse.jpg" alt="" class="item-img">
+                        <div class="item-text">
+                            <h3>Imagen 1</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur.</p>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <img src="~/Images/ThisIsHouse.jpg" alt="" class="item-img">
+                        <div class="item-text">
+                            <h3>Imagen 1</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur.</p>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <img src="~/Images/ThisIsHouse.jpg" alt="" class="item-img">
+                        <div class="item-text">
+                            <h3>Imagen 1</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur.</p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="item">
+                        <img src="~/Images/ThisIsHouse.jpg" alt="" class="item-img">
+                        <div class="item-text">
+                            <h3>Imagen 1</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur.</p>
+                        </div>
+                    </div>
+
+                    <div class="item">
+                        <img src="~/Images/ThisIsHouse.jpg" alt="" class="item-img">
+                        <div class="item-text">
+                            <h3>Imagen 1</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur.</p>
+                        </div>
+                    </div>
+                </div>
+                    <audio src="~/music/libertad.mp3" controls="controls" type="audio/mpeg" preload="preload">
+                    </audio>
+               
+                   
+                </main>
+            <!-- page-content" -->
+        </div>
+    </div>
+    <!-- page-wrapper -->
+    <!---->
+    <!---->
+    
+    <script src="~/js/site2.js" asp-append-version="true"></script>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+﻿
+@{ ViewData["Title"] = "Index"; }
+
+<h1>Agregar Canción</h1>
+<style>
+    strong {
+        color: red;
+    }
+</style>
+
+<form method="post" enctype="multipart/form-data" action="/Admin/Subir">
+    <br>
+    <div>
+        <input type="file" name="photo" />
+    </div>
+    <br>
+    <div>
+        <input type="submit" value="Subir" />
+    </div>
+    <strong>@ViewBag.message</strong>
+</form>
