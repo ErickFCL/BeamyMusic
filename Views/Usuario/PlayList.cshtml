@@ -1,0 +1,228 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beamy Music</title>
+    <link rel="icon" type="image/jpg" href="~/Img/play.png" />
+    <link rel="stylesheet" href="~/css/style3.css" />
+    <link rel="stylesheet" href="~/css/style04.css" />
+    <link rel="stylesheet" href="~/css/style6.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <style>
+        body {
+            background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 17, 224, 0.5) ), url(https://img2.rtve.es/i/?w=1600&i=1592493127332.jpg);
+        }
+        h1{
+            color : #ffffff;
+        }
+        label{
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container2">
+        <div class="page-wrapper chiller-theme toggled">
+            <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+                <i class="fas fa-bars"></i>
+            </a>
+            <nav id="sidebar" class="sidebar-wrapper">
+                <div class="sidebar-content">
+                    <div class="sidebar-brand">
+                        <a href="/usuario/interface">Beamy Music</a>
+                        <i class="fa fa-hand-peace-o"></i>
+                        <a href="/autor/logout"><i class="fa fa-sign-out float-right"></i></a>
+                    </div>
+                    <div class="sidebar-header">
+                        <div class="user-pic">
+                            <img class="img-responsive img-rounded" src="~/Images/userNew.png" alt="User picture">
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">
+                                <strong>@ViewData["Message"]</strong>
+                            </span>
+                            <span class="user-role">Usuario</span>
+                            <span class="user-status">
+                                <i class="fa fa-circle"></i>
+                                <span style="color:green">Online</span>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- sidebar-header  -->
+                    <div class="sidebar-search">
+                        <div>
+                            <div class="input-group">
+                                <form action="/usuario/interface">
+                                    <input class="form-control" type="search" name="search" placeholder="Search..." value="@ViewBag.Buscar">
+
+                                    <button class="btn btn-outline-success my-2" type="submit">Buscar</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- sidebar-search  -->
+                    <div class="sidebar-menu">
+                        <ul>
+                            <li class="header-menu">
+                                <span>General</span>
+                            </li>
+                            <li>
+                                <a href="/Usuario/Editar">
+                                    <i class="fa fa-cog"></i>
+                                    <span>Editar Usuario</span>
+                                </a>
+
+                            </li>
+                            <li>
+
+
+
+
+                                <a href="#popup">
+                                    <i class="fa fa-arrow-up"></i>
+                                    <span>Subir Canción</span>
+                                </a>
+
+
+
+
+
+                            </li>
+                            <!--<li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span></span>
+
+                                </a>
+
+                            </li>
+
+                            <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fa fa-globe"></i>
+                                    <span>Maps</span>
+                                </a>
+
+
+                            </li>-->
+                            <li class="header-menu">
+                                <span>Música</span>
+                            </li>
+                            <li>
+                                <a href="/Usuario/favoritos">
+                                    <i class="fa fa-heart"></i>
+                                    <span>Mis Favoritas</span>
+
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Usuario/PlayList">
+                                    <i class="fa fa-star"></i>
+                                    <span>Play List</span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    <!-- sidebar-menu  -->
+                </div>
+                <!-- sidebar-content
+                <div class="sidebar-footer">
+                    <a href="#">
+                        <i class="fa fa-bell"></i>
+                        <span class="badge badge-pill badge-warning notification">Música gratis</span>
+                    </a>
+
+                    <a href="#">
+                        <i class="fa fa-cog"></i>
+                        <span class="badge-sonar"></span>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-power-off"></i>
+                    </a>
+                </div>
+                     sidebar-wrapper  -->
+            </nav>
+
+
+            <main class="page-content">
+                <a href="#popup">
+
+
+                    <i class="fa fa-arrow-up"></i>
+                    <label> Crear Play List</label>
+
+                </a>
+                <h1>Mis Play List</h1>
+                <div class="container">
+                    @foreach (var item in ViewBag.PlayListas)
+                    {
+                        <a href="/usuario/listaPlaylist?id=@item.Id">
+                            <div class="box">
+                                <img src="@item.Foto" class="item">
+                                <div class="capa">
+                                    <h2>@item.Nombre</h2>
+                                </div>
+                            </div>
+                        </a>
+                    }
+                </div>
+
+
+
+            </main>
+            <!-- page-content" -->
+        </div>
+    </div>
+    <!-- page-wrapper -->
+    <!---->
+    <!---->
+
+
+
+    <div id="popup" class="overlay">
+        <div id="popupBody">
+            <h2>Subir Canción a Beamy Music</h2>
+            <a id="cerrar" href="#">&times;</a>
+            <div class="popupContent">
+
+                @{ List<BeamyMusic.Models.PlayList> playLists = ((List<BeamyMusic.Models.PlayList>)ViewBag.playList); }
+
+
+
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-4">
+                            <div class="text-lef">
+                                <form action="/usuario/PlayList" enctype="multipart/form-data" method="post">
+                                    <label>Nombre</label>
+                                    <input class="form-control" name="Nombre" autocomplete="off" value="@Model.Nombre" />
+
+                                    <br />
+
+                                    <label>Estado</label>
+                                    <select name="Estado">
+                                        <option value="0">Público</option>
+                                        <option value="1">Privado</option>
+                                    </select>
+
+                                    <br />
+                                    <label>Foto </label>
+                                    <input type="file" name="Foto" />
+
+                                    <br />
+                                    <button class="btn btn-success">Crear</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/site2.js" asp-append-version="true"></script>
+</body>
+</html>

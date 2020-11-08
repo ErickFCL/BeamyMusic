@@ -1,0 +1,77 @@
+﻿@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <title>Beamy Music-Registrarse</title>
+    <link rel="icon" type="image/jpg" href="~/Img/play.png" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <style>
+        strong {
+            color: rgba(255, 0, 0, 0.72);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="text-center">
+                    <h2> <img src="~/Img/Logotipo.png" style="width:100px" />Beamy Music</h2>
+                 </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+
+            </div>
+            <div class="col-lg-4">
+                <div class="text-lef">
+                    <form action="/autor/Registrar" method="post">
+                        <label>Nombres</label>
+                        <input class="form-control" name="Nombre" autocomplete="off" placeholder="Ingrese su nombre" minlength="3" value="@Model.Nombre" />
+                        <strong>@Html.ValidationMessage("Nombre")</strong>
+                        <strong>@Html.ValidationMessage("Nombre1")</strong>
+                        <br />
+                        <label>Apellidos</label>
+                        <input class="form-control" name="Apellido" autocomplete="off" placeholder="Ingrese su apellido" minlength="3" value="@Model.Apellido" />
+                        <strong>@Html.ValidationMessage("Apellido")</strong>
+                        <strong>@Html.ValidationMessage("Apellido1")</strong>
+                        <br />
+                        <label>Correo</label>
+                        <input type="email" class="form-control" name="Correo" autocomplete="off" placeholder="Ejemplo: BeamyMusic@gmail.com" value="@Model.Correo" />
+                        <strong>@Html.ValidationMessage("Correo")</strong>
+                        <strong>@Html.ValidationMessage("Correo2")</strong>
+                        <strong>@Html.ValidationMessage("RegularExpression")</strong>
+                        <strong>@Html.ValidationMessage("correoExiste")</strong>
+                        <br />
+                        <label>Usuario</label> <!--este es nick-->
+                        <input class="form-control" name="Nick" autocomplete="off" placeholder="Ingrese su apodo" minlength="3" maxlength="8" value="@Model.Nick" />
+                        <strong>@Html.ValidationMessage("Nickname")</strong>
+                        <strong>@Html.ValidationMessage("Nickname3")</strong>
+                        <strong>@Html.ValidationMessage("NickEspacio")</strong>
+                        <strong>@Html.ValidationMessage("usuarioExiste")</strong>
+
+
+
+                        <br />
+                        <label>Contraseña</label>
+                        <input class="form-control" type="password" name="Pass" autocomplete="off" placeholder="Entre 6 y 8" value="@Model.Pass" pattern="[A-Za-z][A-Za-z0-9]*[0-9][A-Za-z0-9]*" title="Una contraseña válida es un conjuto de caracteres, donde cada uno consiste de una letra mayúscula o minúscula, o un dígito. La contraseña debe empezar con una letra y contener al menor un dígito" required minlength="6" maxlength="8" />
+                        <strong>@Html.ValidationMessage("Password")</strong>   <br />
+                        <br />
+                        <button class="btn btn-success">Registrarse</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

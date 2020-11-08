@@ -1,0 +1,36 @@
+﻿@{ // List<Account> accounts = ((List<Account>)ViewBag.Accounts); // forma A
+    
+    List<BeamyMusic.Models.Cancion> canciones = ((List<BeamyMusic.Models.Cancion>)ViewBag.Canciones);
+
+}
+
+<h1>Canciones </h1>
+
+<a href="/Admin/PlayList">Crear Play List</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Género</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in canciones)
+        {
+            <tr>
+    
+    
+                <td>@item.Nombre</td>
+                <td>@item.Genero</td>
+    
+                <td>
+                    <a href="/Admin/AgregarPorDefecto?id=@item.Id">Agregar a Play List</a> |
+        
+                </td>
+            </tr>
+          }
+    </tbody>
+</table>

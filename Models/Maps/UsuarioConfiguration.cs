@@ -18,14 +18,14 @@ namespace BeamyMusic.DataBase.Maps
             builder.ToTable("Usuario");
             builder.HasKey(o => o.Id);
 
-            //Canciones Escuchadas
-            builder.HasMany(o => o.CancionesEscuchadasL).
-                WithOne(o => o.UsuarioL).
+            //Favoritos
+            builder.HasMany(o => o.Favoritos).
+                WithOne(o => o.Usuarios).
                 HasForeignKey(o => o.IdUsuario);
 
-            //Lista De Reproduccion
-            builder.HasMany(o => o.ListasDeReproduccionL).
-                WithOne(o => o.UsuarioL).
+            //PlayList
+            builder.HasMany(o => o.PlayListas).
+                WithOne(o => o.Usuarios).
                 HasForeignKey(o => o.IdUsuario);
         }
     }

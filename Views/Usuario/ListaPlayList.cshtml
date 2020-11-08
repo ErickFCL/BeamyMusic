@@ -1,0 +1,416 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beamy Music</title>
+    <link rel="icon" type="image/jpg" href="~/Img/play.png" />
+    <link rel="stylesheet" href="~/css/style3.css" />
+    <link rel="stylesheet" href="~/css/style6.css" />
+    <link rel="stylesheet" href="~/css/style9.css" />
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css'>
+    <link rel="stylesheet" href="~/css/style08.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel='stylesheet' href='https://cdn.plyr.io/3.5.6/plyr.css'>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+    <style type="text/css">
+
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #header {
+            margin: auto;
+            width: 500px;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        ul, ol {
+            list-style: none;
+        }
+
+        .nav {
+            width: 500px; /*Le establecemos un ancho*/
+            margin: 0 auto; /*Centramos automaticamente*/
+        }
+
+            .nav > li {
+                float: left;
+            }
+
+            .nav li a {
+                background-color: #fff;
+                color: #000000;
+                text-decoration: none;
+                padding: 10px 12px;
+                display: block;
+            }
+
+                .nav li a:hover {
+                    background-color: #434343;
+                }
+
+            .nav li ul {
+                display: none;
+                position: absolute;
+                min-width: 140px;
+            }
+
+            .nav li:hover > ul {
+                display: block;
+            }
+
+            .nav li ul li {
+                position: relative;
+            }
+
+                .nav li ul li ul {
+                    right: -140px;
+                    top: 0px;
+                }
+    </style>
+    <style>
+        body {
+            background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 17, 224, 0.5) ), url(https://img2.rtve.es/i/?w=1600&i=1592493127332.jpg);
+        }
+    </style>
+</head>
+<body>
+    <div class="container2">
+        <div class="page-wrapper chiller-theme toggled">
+            <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+                <i class="fas fa-bars"></i>
+            </a>
+            <nav id="sidebar" class="sidebar-wrapper">
+                <div class="sidebar-content">
+                    <div class="sidebar-brand">
+                        <a href="/usuario/interface">Beamy Music</a>
+                        <i class="fa fa-hand-peace-o"></i>
+                        <a href="/autor/logout"><i class="fa fa-sign-out float-right"></i></a>
+                    </div>
+                    <div class="sidebar-header">
+                        <div class="user-pic">
+                            <img class="img-responsive img-rounded" src="~/Images/userNew.png" alt="User picture">
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">
+                                <strong>@ViewData["Message"]</strong>
+                            </span>
+                            <span class="user-role">Usuario</span>
+                            <span class="user-status">
+                                <i class="fa fa-circle"></i>
+                                <span style="color:green">Online</span>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- sidebar-header  -->
+                    <div class="sidebar-search">
+                        <div>
+                            <div class="input-group">
+                                <form action="/usuario/interface">
+                                    <input class="form-control" type="search" name="search" placeholder="Search..." value="@ViewBag.Buscar">
+
+                                    <button class="btn btn-outline-success my-2" type="submit">Buscar</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- sidebar-search  -->
+                    <div class="sidebar-menu">
+                        <ul>
+                            <li class="header-menu">
+                                <span>General</span>
+                            </li>
+                            <li>
+                                <a href="/Usuario/Editar">
+                                    <i class="fa fa-cog"></i>
+                                    <span>Editar Usuario</span>
+                                </a>
+
+                            </li>
+                            <li>
+
+
+
+
+                                <a href="#popup">
+                                    <i class="fa fa-arrow-up"></i>
+                                    <span>Subir Canción</span>
+                                </a>
+
+
+
+
+
+                            </li>
+                            <!--<li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span></span>
+
+                                </a>
+
+                            </li>
+
+                            <li class="sidebar-dropdown">
+                                <a href="#">
+                                    <i class="fa fa-globe"></i>
+                                    <span>Maps</span>
+                                </a>
+
+
+                            </li>-->
+                            <li class="header-menu">
+                                <span>Música</span>
+                            </li>
+                            <li>
+                                <a href="/Usuario/Favoritos">
+                                    <i class="fa fa-heart"></i>
+                                    <span>Mis Favoritas</span>
+
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Usuario/PlayList">
+                                    <i class="fa fa-star"></i>
+                                    <span>Play List</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <!-- sidebar-menu  -->
+                </div>
+                <!-- sidebar-content
+                <div class="sidebar-footer">
+                    <a href="#">
+                        <i class="fa fa-bell"></i>
+                        <span class="badge badge-pill badge-warning notification">Música gratis</span>
+                    </a>
+
+                    <a href="#">
+                        <i class="fa fa-cog"></i>
+                        <span class="badge-sonar"></span>
+                    </a>
+                    <a href="#">
+                        <i class="fa fa-power-off"></i>
+                    </a>
+                </div>
+                     sidebar-wrapper  -->
+            </nav>
+
+
+            <main class="page-content">
+                <!-- partial:index.partial.html -->
+                
+
+                <!---->
+                
+                <div class="all">
+                   
+                    <div class="Izqui">
+                        
+                            <div class="col-md-12">
+                                <h3>@ViewBag.PLay.Nombre</h3>
+                            </div>
+                           
+                                <div class="col-md-2">
+                                    <div class="album-poster2">
+                                        <img src="@ViewBag.PLay.Foto">
+                                    </div>
+                                    <h4>Total:@ViewBag.PlayListCancion.Count</h4>
+                                </div>
+                            
+                        
+                    </div>
+                    <div class="der">
+                        @{ int m = 0; }
+                        <div class="container">
+
+                            <audio id="audio" preload="none" tabindex="0">
+                                @foreach (var item in ViewBag.PlayListCancion)
+                                {
+                                    m++;
+                                    <source src="@item.Canciones.LinkDeCancion" data-track-number="@m" />
+
+                                }
+                                Your browser does not support HTML5 audio.
+                            </audio>
+
+                            <div class="player">
+
+                                <div class="large-toggle-btn">
+                                    <i class="large-play-btn"><span class="screen-reader-text">Large toggle button</span></i>
+                                </div>
+                                <!-- /.play-box -->
+
+                                <div class="info-box">
+                                    <div class="track-info-box">
+                                        <div class="track-title-text"></div>
+                                        <div class="audio-time">
+                                            <span class="current-time">00:00</span> /
+                                            <span class="duration">00:00</span>
+                                        </div>
+                                    </div>
+                                    <!-- /.info-box -->
+
+                                    <div class="progress-box">
+                                        <div class="progress-cell">
+                                            <div class="progress">
+                                                <div class="progress-buffer"></div>
+                                                <div class="progress-indicator"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- /.progress-box -->
+
+                                <div class="controls-box">
+                                    <i class="previous-track-btn disabled"><span class="screen-reader-text">Previous track button</span></i>
+                                    <i class="next-track-btn"><span class="screen-reader-text">Next track button</span></i>
+                                </div>
+                                <!-- /.controls-box -->
+
+                            </div>
+                            <!-- /.player -->
+
+                            <div class="play-list">
+                                @{ int n = 0;}
+
+                                @foreach (var item2 in ViewBag.PlayListCancion)
+                                {
+                                    n++;
+                                    <div class="play-list-row" data-track-row=" @n">
+                                        <div class="small-toggle-btn">
+                                            <i class="small-play-btn"><span class="screen-reader-text">Small toggle button</span></i>
+                                        </div>
+
+
+                                        <div class="track-number">
+
+                                            <label>@n</label>
+                                        </div>
+
+                                        <div class="track-title">
+                                            <a class="playlist-track" href="#" data-play-track="@item2.Canciones.Id">@item2.Canciones.Nombre / @item2.Canciones.Artistas.Nombre @item2.Canciones.Duracion</a>
+
+                                        </div>
+                                        <div id="header">
+                                            <nav>
+                                                <!-- Aqui estamos iniciando la nueva etiqueta nav -->
+                                                <ul class="nav">
+
+                                                    <li>
+                                                        <a href="">...</a>
+                                                        <ul>
+                                                            <li>
+                                                                <a href="#">Agregar a Play List</a>
+                                                                <ul>
+                                                                    @foreach (var item in ViewBag.PlayListas)
+                                                                    {
+                                                                        <li><a href="/usuario/AgregarAmiPlayList3?cancion=@item2.Canciones.Id&playlist=@item.Id&playListCan=@item2.IdPlayList">@item.Nombre</a></li>
+
+                                                                    }
+
+                                                                </ul>
+                                                            </li>
+                                                            <li><a href="/usuario/favorito?cancion=@item2.Canciones.Id&PlayListActual=@item2.IdPlayList">Favoritos</a></li>
+                                                            @if (ViewBag.User == false)
+                                                            {
+                                                                <li><a href="/usuario/delete?idCancion=@item2.Canciones.Id&idPlayList=@item2.IdPlayList">Eliminar</a></li>
+                                                            }
+                                                        </ul>
+
+                                                    </li>
+
+                                                </ul>
+                                            </nav><!-- Aqui estamos cerrando la nueva etiqueta nav -->
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+               
+                <!---->
+
+            </main>
+            <!-- page-content" -->
+        </div>
+    </div>
+    <!-- page-wrapper -->
+    <!---->
+    <!---->
+
+
+
+    <div id="popup" class="overlay">
+        <div id="popupBody">
+            <h2>Subir Canción a Beamy Music</h2>
+            <a id="cerrar" href="#">&times;</a>
+            <div class="popupContent">
+
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-4">
+                            <div class="text-lef">
+                                <form action="/usuario/interface" enctype="multipart/form-data" method="post">
+                                    <label>Subir Canción</label>
+                                    <input type="file" name="Cancion" />
+                                    <label>Subir Foto</label>
+                                    <input type="file" name="Foto" />
+                                    <label>Nombre</label>
+                                    <input class="form-control" name="Nombre" autocomplete="off" placeholder="Ingrese nombre de la canción" minlength="3" />
+
+                                    <br />
+                                    <label>Género</label>
+                                    <input class="form-control" name="Genero" autocomplete="off" placeholder="Ingrese Género de la canción" minlength="3" />
+
+                                    <br />
+                                    <label>Duración</label>
+                                    <input type="time" class="form-control" name="Duracion" autocomplete="off" />
+
+                                    <br />
+
+                                    <label>Álbum</label>
+                                    <input class="form-control" name="Album" autocomplete="off" placeholder="Ingrese nombre de la canción" minlength="3" />
+
+                                    <br />
+                                    <label>Artista</label>
+                                    <input class="form-control" name="Artista" autocomplete="off" placeholder="Ingrese Género de la canción" minlength="3" />
+
+                                    <br />
+
+
+                                    <button class="btn btn-success">Subir</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/js/site2.js" asp-append-version="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/html5media/1.1.8/html5media.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/plyr/3.5.6/plyr.min.js'></script>
+    <script src="~/js/site5.js"></script>
+    <script src="~/js/site6.js"></script>
+</body>
+                    </html>

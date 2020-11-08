@@ -1,0 +1,38 @@
+﻿.ven {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.ven.li {
+    list-style-type: none;
+    position: relative;
+    width: 120px;
+}
+
+    .ven.ventanita .li a {
+        text-decoration: none;
+        display: inline-block;
+        padding: 5px 10px;
+        width: 120px;
+        height: 30px;
+        border: 1px solid #000;
+        color: #fff;
+        background-color: #000;
+    }
+
+.ven.ventanita .li a:hover {
+    color: #000;
+    background-color: #fff;
+}
+
+    .ven.ventanita .li ul {
+        display: none;
+        position: absolute;
+        top: 0px;
+        left: 120px;
+    }
+
+    .ven.ventanita .li:hover ul {
+        display: block;
+    }

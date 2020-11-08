@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using BeamyMusic.DataBase;
 using BeamyMusic.Models;
 using FinancistoCloneWeb.Controllers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,13 +21,14 @@ using Microsoft.Extensions.Hosting;
 
 namespace BeamyMusic.Controllers
 {
+
+    [Authorize]
     public class UsuarioController : BaseController
     {
-   
+        
         private BeamyContext _context;
         public IHostEnvironment _hostEnv;
         private readonly IConfiguration configuration;
-
 
         public UsuarioController(BeamyContext context, IHostEnvironment hostEnv, IConfiguration configuration) : base(context)
         {
@@ -31,50 +37,279 @@ namespace BeamyMusic.Controllers
             this.configuration = configuration;
         }
        
+
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Interface(string search)
         {
-            var usuario = new Usuario();
-            var usuarios = _context.UsuarioCs
-                .Where(o => o.Id == LoggedUser().Id)
-                .Include(o => o.CancionesEscuchadasL)
-                .Include(o => o.ListasDeReproduccionL)
+            ViewBag.ListPLayMenu = _context.PlayListas.Where(q => q.IdUsuario == LoggedUser().Id).ToList();
+            
+            ViewData["Message"] = LoggedUser().Nombre;
+            ViewBag.ListaPlayList = _context.PlayListas.Where(x => x.Estado == 0).OrderBy(o => o.Nombre).ToList();
+            ViewBag.Canciones = _context.Canciones.Include(o => o.Albumes).Include(u => u.Artistas).ToList();
+            ViewBag.Buscar = search;
+            ViewBag.PlayListas2 = _context.PlayListas.Where(u => u.IdUsuario == LoggedUser().Id);
+            var cancion = _context.Canciones
+                .Include(o => o.Artistas)
+                .Include(y=>y.Albumes)
                 .ToList();
 
-            return View(usuarios);
+            var artista = _context.Artistas
+                .ToList();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                ViewBag.PlayListas = _context.PlayListas.Where(u => u.IdUsuario == LoggedUser().Id);
+                cancion =  cancion.Where(s => s.Nombre.Contains(search)).ToList();
+                ViewBag.cancionPase = cancion;
+                artista = artista.Where(s => s.Apellido.Contains(search)).ToList();
+                ViewBag.artistaPase = artista;
+
+                return PartialView("Buscar");           
+            }
+
+            return PartialView(new Cancion()); 
+        }
+        [HttpPost]
+        public ActionResult Interface(Cancion canciones, IFormFile Cancion, IFormFile Foto)
+        {
+            if (ModelState.IsValid)
+            {
+                // Guardar archivos rn rl servidor:
+                if ((Cancion != null && Cancion.Length > 0) && (Foto != null && Foto.Length > 0))
+                {
+                    var basePath = _hostEnv.ContentRootPath + @"\wwwroot";
+                    var ruta = @"\Music\" + Cancion.FileName;
+
+                    var basePath1 = _hostEnv.ContentRootPath + @"\wwwroot";
+                    var ruta1 = @"\FtCancion\" + Foto.FileName;
+                    using (var strem = new FileStream(basePath + ruta, FileMode.Create))
+                    {
+                        Cancion.CopyTo(strem);
+                        canciones.LinkDeCancion = ruta;
+                    }
+                    using (var strem = new FileStream(basePath1 + ruta1, FileMode.Create))
+                    {
+                        Foto.CopyTo(strem);
+                        canciones.Foto = ruta1;
+                    }
+                }
+                _context.Canciones.Add(canciones);
+                _context.SaveChanges();
+                return RedirectToAction("Interface"/*lista de canciones*/);
+            }
+            else
+                return View("Interface", canciones);
+        }
+       
+       
+        [HttpGet]
+        public ActionResult ListaPlayList(int id)
+        {
+            ViewData["Message"] = LoggedUser().Nombre;
+            ViewBag.user2 = _context.PlayListCanciones.Where(o => o.IdPlayList == id)
+                .Include(x => x.PlayListas).FirstOrDefault();
+            if (ViewBag.user2.PlayListas.IdUsuario == 1)
+            {
+                ViewBag.User = true;
+            }
+            else
+            {
+                ViewBag.User = false;
+            }
+
+            ViewBag.PlayListCancion = _context.PlayListCanciones.Where(o => o.IdPlayList == id)
+                .Include(x => x.Canciones.Artistas)
+                .Include(o => o.Canciones.Albumes)
+                .ToList();
+            ViewBag.PlayListas = _context.PlayListas.Where(u => u.IdUsuario == LoggedUser().Id);
+            ViewBag.PLay = _context.PlayListas.Where(z => z.Id == id).FirstOrDefault();
+
+            return PartialView(new PlayList());
         }
         [HttpGet]
-       public ActionResult Registrar()
+        public ActionResult PlayList()
         {
-           
-            return View("Registrar",new Usuario());
+            ViewData["Message"] = LoggedUser().Nombre;
+            ViewBag.PlayListas = _context.PlayListas.Where(o => o.IdUsuario == LoggedUser().Id)
+                .ToList();
+
+            return PartialView(new PlayList());
         }
-        //[Route("Registrar")]
         [HttpPost]
-        public ActionResult Registrar(Usuario usuario)
+        public ActionResult PlayList(PlayList playList, IFormFile Foto)
         {
-            try
+            if (ModelState.IsValid)
             {
-                validarUsuarios(usuario);
-                if (ModelState.IsValid)
+                // Guardar archivos rn rl servidor:
+                if (Foto != null && Foto.Length > 0)
                 {
-                var encriptar = CreateHash(usuario.Pass);
-                    usuario.Pass = encriptar;
-                    usuario.Imagen = "UserNew.png";
-                    usuario.FecDeCreacion = DateTime.Now;
-                    //var agregarUsuario = context.Add(usuario);
-                    _context.UsuarioCs.Add(usuario);
-                    _context.SaveChanges();
-                    return RedirectToAction("InSesion", "Autor");
+                    var basePath = _hostEnv.ContentRootPath + @"\wwwroot";
+                    var ruta = @"\FtPlayList\" + Foto.FileName;
+                    using (var strem = new FileStream(basePath + ruta, FileMode.Create))
+                    {
+                        Foto.CopyTo(strem);
+                        playList.Foto = ruta;
+                    }
                 }
+                playList.IdUsuario = LoggedUser().Id;
+                _context.PlayListas.Add(playList);
+                _context.SaveChanges();
+
+                return RedirectToAction("PlayList");
             }
-            catch (Exception)
+            else
             {
-                return View(usuario);
+                ViewBag.playList = _context.Usuarios.Where(o => o.Id == LoggedUser().Id)
+                .Include(x => x.PlayListas)
+                .ToList();
+                return View("PlayList", playList);
             }
-         
-            return View(usuario);
         }
+        [HttpGet]
+        public IActionResult AgregarAmiPlayList3(int cancion, int playlist, int playListCan)
+        {
+            //var playListCancion = _context.PlayListCanciones.FirstOrDefault();
+            var listita = new PlayListCancion
+            {
+                IdPlayList = playlist,
+                IdCancion = cancion
+            };
+            _context.PlayListCanciones.Add(listita);
+
+            _context.SaveChanges();
+            return RedirectToAction("ListaPlayList", new { id = playListCan });
+        }
+        [HttpGet]
+        public IActionResult AgregarAmiPlayList(int cancion, int playlist, string _search)
+        {
+            //var playListCancion = _context.PlayListCanciones.FirstOrDefault();
+            var listita = new PlayListCancion
+            {
+                IdPlayList = playlist,
+                IdCancion = cancion
+            };
+            _context.PlayListCanciones.Add(listita);
+            _context.SaveChanges();
+
+            return RedirectToAction("Interface", new { search = _search});
+        }
+        [HttpGet]
+        public IActionResult AgregarAmiPlayList2(int cancion, int playlist)
+        {
+            //var playListCancion = _context.PlayListCanciones.FirstOrDefault();
+            var listita = new PlayListCancion
+            {
+                IdPlayList = playlist,
+                IdCancion = cancion
+            };
+            _context.PlayListCanciones.Add(listita);
+            _context.SaveChanges();
+
+            return RedirectToAction("Favoritos");
+        }
+        [HttpGet]
+        public IActionResult AgregarAmiPlayList4(int cancion, int playlist,int idArtista)
+        {
+            //var playListCancion = _context.PlayListCanciones.FirstOrDefault();
+            var listita = new PlayListCancion
+            {
+                IdPlayList = playlist,
+                IdCancion = cancion
+            };
+            _context.PlayListCanciones.Add(listita);
+            _context.SaveChanges();
+
+            return RedirectToAction("ListaArtista", new { id = idArtista});
+        }
+        [HttpGet]
+        public ActionResult Favoritos()
+        {
+            ViewData["Message"] = LoggedUser().Nombre;
+            ViewBag.favoritos = _context.Favoritos.Where(o => o.IdUsuario == LoggedUser().Id)
+                .Include(x => x.Canciones.Artistas)
+                .Include(o=>o.Canciones.Albumes).ToList();
+            ViewBag.PlayListas = _context.PlayListas.Where(u => u.IdUsuario == LoggedUser().Id);
+            return PartialView();
+        }
+        [HttpGet]
+        public ActionResult Favorito(int Cancion,int PlayListActual)
+        {
+            var favoritos = new Favorito
+            {
+                IdUsuario = LoggedUser().Id,
+                IdCancion = Cancion,
+                Fecha = DateTime.Now
+            };
+             _context.Favoritos.Add(favoritos);
+            _context.SaveChanges();
+
+            return RedirectToAction("ListaPlayList", new {id = PlayListActual });
+        }
+        [HttpGet]
+        public ActionResult Favorito3(int idCancion, int idArtista)
+        {
+            var favoritos = new Favorito
+            {
+                IdUsuario = LoggedUser().Id,
+                IdCancion = idCancion,
+                Fecha = DateTime.Now
+            };
+            _context.Favoritos.Add(favoritos);
+            _context.SaveChanges();
+
+            return RedirectToAction("ListaArtista", new { id = idArtista });
+        }
+        [HttpGet]
+        public ActionResult Favorito2(int Cancion, string _search)
+        {
+            var favoritos = new Favorito
+            {
+                IdUsuario = LoggedUser().Id,
+                IdCancion = Cancion,
+                Fecha = DateTime.Now
+            };
+            _context.Favoritos.Add(favoritos);
+            _context.SaveChanges();
+
+            return RedirectToAction("Interface", new { search = _search });
+        }
+        [HttpGet]
+        public ActionResult ListaArtista(int id)
+        {
+            ViewData["Message"] = LoggedUser().Nombre;
+            ViewBag.artista = _context.Canciones.Where(o => o.IdArtista == id).
+                Include(x => x.Albumes).
+                Include(y => y.Artistas).ToList();
+            ViewBag.PlayListas = _context.PlayListas.Where(u => u.IdUsuario == LoggedUser().Id);
+            ViewBag.artista2 = _context.Artistas.Where(o => o.Id == id).FirstOrDefault();
+
+            return PartialView();
+        }
+
+        [HttpGet]
+        public ActionResult Delete(int idcancion,int idPLayList)
+        {
+            var elimina = _context.PlayListCanciones.Where(o => o.IdCancion == idcancion && o.IdPlayList == idPLayList).FirstOrDefault();
+            _context.PlayListCanciones.Remove(elimina);
+            _context.SaveChanges();
+
+            return RedirectToAction("ListaPlayList", new {id = idPLayList } ); 
+        }
+        [HttpGet]
+        public ActionResult DeleteF(int idcancion)
+        {
+            var elimina = _context.Favoritos.Where(o => o.IdCancion == idcancion && o.IdUsuario == LoggedUser().Id).FirstOrDefault();
+            _context.Favoritos.Remove(elimina);
+            _context.SaveChanges();
+
+            return RedirectToAction("Favoritos");
+        }
+        public ActionResult Prueba()
+        {
+            return PartialView();
+        }
+
+        //****validaciones de Usuario*******
         private string CreateHash(string input)
         {
             var sha = SHA256.Create();
@@ -83,70 +318,28 @@ namespace BeamyMusic.Controllers
 
             return Convert.ToBase64String(hash);
         }
-
-        /*[HttpGet]
-        [Route("EditarUsuario")]
-        public IActionResult EditarUsuario(int id)
-        {
-            try
-            {
-                var user = HttpContext.Session.Get<Usuario>("sessionUser");
-
-                var user1 = context.Usuarios.Where(o => o.Id == id).First();
-                ViewBag.IDSSSS = user1.Id;
-                ViewBag.ImagenEditar = user1.Imagen;
-                return View(user1);
-            }
-            catch (Exception)
-            {
-                return RedirectToAction("Login", "Auth");
-            }
-        }
-
-
-        [Route("EditarUsuario")]
-        [HttpPost]
-        [Obsolete]
-        public IActionResult EditarUsuario(Usuario user, IFormFile photo)
-        {
-            try
-            {
-                var userDb = context.Usuarios.Where(o => o.Id == user.Id).First();
-                //validar esto
-
-                userDb.Apellido = user.Apellido;
-                userDb.Nombre = user.Nombre;
-                userDb.Correo = user.Correo;
-                userDb.Nickname = user.Nickname;
-                userDb.Password = user.Password;
-
-                if (photo.Length > 0)
-                {
-                    var filePath = Path.Combine(env.WebRootPath, "Images", photo.FileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        photo.CopyTo(stream);
-                    }
-                }
-                user.Imagen = photo.FileName;
-                userDb.Imagen = user.Imagen;
-                ViewBag.RutaImag = userDb.Imagen;
-                string img = userDb.Imagen;
-                HttpContext.Session.SetString("Imagen", img);
-                context.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            catch (Exception)
-            {
-                return RedirectToAction("Login", "Auth");
-            }
-
-        }*/
-
         public void validarUsuarios(Usuario usuario)
         {
-
-
+            var userv = _context.Usuarios
+                .Where(o => o.Nick == usuario.Nick).FirstOrDefault();
+            var userCorreo = _context.Usuarios
+                .Where(o => o.Correo == usuario.Correo).FirstOrDefault();
+            if (userv != null)
+            {
+                ModelState.AddModelError("usuarioExiste", "Este usuario ya existe");
+            }
+            if (userCorreo != null)
+            {
+                ModelState.AddModelError("correoExiste", "Este Correo ya existe");
+            }
+            if (usuario.Nick.Contains(" ") == true)
+            {
+                ModelState.AddModelError("NickEspacio", "No se permite espacios en blanco");
+            }
+            if (!validarLetras(usuario.Nick))
+            {
+                ModelState.AddModelError("Nickname3", "Solo ingrese caracteres alfabéticos");
+            }
             if (usuario.Apellido == null || usuario.Apellido == "")
             {
                 ModelState.AddModelError("Apellido", "El campo Apellido es requerido");
@@ -159,22 +352,21 @@ namespace BeamyMusic.Controllers
             {
                 ModelState.AddModelError("Nombre", "El campo Nombre es requerido");
             }
-           /* if (!validarLetras(usuario.Nombre))
+            if (!validarLetras(usuario.Nombre))
             {
-                ModelState.AddModelError("Nombre1", "Solo ingrese caracteres alfabeticos");
+                ModelState.AddModelError("Nombre1", "Solo ingrese caracteres alfabéticos");
             }
-
             if (!validarLetras(usuario.Apellido))
             {
-                ModelState.AddModelError("Apellido1", "Solo ingrese caracteres alfabeticos");
-            }*/
+                ModelState.AddModelError("Apellido1", "Solo ingrese caracteres alfabéticos");
+            }
             if (usuario.Correo == null || usuario.Correo == "")
             {
                 ModelState.AddModelError("Correo", "El campo Correo es requerido");
             }
             if (usuario.Nick == null || usuario.Nick == "")
             {
-                ModelState.AddModelError("Nickname", "El campo Nickname es requerido");
+                ModelState.AddModelError("Nickname", "El campo Usuario es requerido");
             }
         }
         public void validarUserLogin(Usuario usuario)
@@ -191,9 +383,7 @@ namespace BeamyMusic.Controllers
             }
 
         }
-
-        //Metodos de validación
-       /* public bool validarLetras(string numString)
+        public bool validarLetras(string numString)
         {
             string parte = numString.Trim();
             int count = parte.Count(s => s == ' ');
@@ -212,42 +402,6 @@ namespace BeamyMusic.Controllers
                     return false;
             }
             return true;
-        }*/
-       public ActionResult Interface()
-        {
-            ViewData["Message"] = LoggedUser().Nombre;
-            //var usuarioActivo = new Usuario();
-            //var usuarioActivos = LoggedUser().Nombre;
-            return PartialView();
-        }
-        public ActionResult Editar()
-        {
-           /* ViewBag.Types = _context.Types.ToList();
-            ViewBag.Currency = new List<string> { "Euro", "Dolar", "Soles" };
-
-            var cuenta = _context.Cuentas.Where(o => o.Id == id).FirstOrDefault(); // si no lo encuentra retorna un null
-            return View("Editar", cuenta);
-
-            // o tambien se hace asi:
-            //ViewBag.Cuentas = _context.Cuentas.Where(o => o.Id == id).FirstOrDefault();
-            //return View("Editar");*/
-            return View();
-        }
-        public ActionResult CancionesEscuchadas()
-        {
-            return View();
-        }
-        public ActionResult ListaDeReproduccion()
-        {
-            return View();
-        }
-        public ActionResult DetalleDeCancionActual()
-        {
-            return PartialView();
-        }
-        public ActionResult Albumes()
-        {
-            return View();
         }
     }
 }

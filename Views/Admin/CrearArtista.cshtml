@@ -1,0 +1,33 @@
+﻿@{ var cancion = (BeamyMusic.Models.Artista)Model; }
+
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-lg-4">
+            <div class="text-lef">
+                <form action="/Admin/CrearArtista" enctype="multipart/form-data" method="post">
+                    <label>Nombre</label>
+                    <input class="form-control" name="Nombre" autocomplete="off" value="@Model.Nombre" />
+
+                    <br />
+                    <label>Nombre Artístico</label>
+                    <input class="form-control" name="Apellido" autocomplete="off" value="@Model.Apellido" />
+
+                    <br />
+                    <label>Nacionalidad</label>
+                    <input class="form-control" name="Nacionalidad" autocomplete="off" value="@Model.Nacionalidad" />
+
+                    <br />
+                    <label>Foto</label>
+                 
+                    <input type="file" name="Foto"/>
+
+                    <br />
+                    <button class="btn btn-success">Subir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

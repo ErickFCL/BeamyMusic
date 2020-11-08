@@ -1,0 +1,34 @@
+﻿@{ 
+    List<BeamyMusic.Models.PlayList> playLists = ((List<BeamyMusic.Models.PlayList>)ViewBag.playList);
+    }
+
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-lg-4">
+            <div class="text-lef">
+                <form action="/Admin/PlayList" enctype="multipart/form-data" method="post">
+                    <label>Nombre</label>
+                    <input class="form-control" name="Nombre" autocomplete="off" value="@Model.Nombre" />
+
+                    <br />
+                   
+                    <label>Estado</label>
+                    <select name="Estado">
+                        <option value="0">Público</option>
+                        <option value="1">Privado</option>
+                    </select>
+
+                    <br />
+                    <label>Foto </label>
+                    <input type="file" name="Foto"/>
+
+                    <br />
+                    <button class="btn btn-success">Crear</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

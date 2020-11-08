@@ -35,7 +35,6 @@
         transform: rotate(0deg);
     }
 }
-
 @keyframes sonar {
     0% {
         transform: scale(0.9);
@@ -85,7 +84,7 @@ body {
     }
 
         .page-wrapper .theme.chiller-theme {
-            background: #1e2229;
+            background: #000000;
         }
 
     /*----------------toggeled sidebar----------------*/
@@ -425,7 +424,7 @@ body {
 /*-----------------------------chiller-theme-------------------------------------------------*/
 
 .chiller-theme .sidebar-wrapper {
-    background: #31353D;
+    background: #000000;/*tema de la barra*/
 }
 
     .chiller-theme .sidebar-wrapper .sidebar-header,
@@ -455,7 +454,7 @@ body {
             .chiller-theme .sidebar-wrapper .sidebar-header .user-info,
             .chiller-theme .sidebar-wrapper .sidebar-brand > a:hover,
             .chiller-theme .sidebar-footer > a:hover i {
-                color: #b8bfce;
+                color: #ffffff;
             }
 
 .page-wrapper.chiller-theme.toggled #close-sidebar {

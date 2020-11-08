@@ -1,21 +1,52 @@
-﻿
-@{ ViewData["Title"] = "Index"; }
+﻿@{ var cancion = (BeamyMusic.Models.Cancion)Model; }
 
-<h1>Agregar Canción</h1>
-<style>
-    strong {
-        color: red;
-    }
-</style>
 
-<form method="post" enctype="multipart/form-data" action="/Admin/Subir">
-    <br>
-    <div>
-        <input type="file" name="photo" />
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-lg-4">
+            <div class="text-lef">
+                <form action="/usuario/interface" enctype="multipart/form-data" method="post">
+                    <label>Subir Canción</label>
+                    <input type="file" name="Cancion" />
+                    <br />
+                    <label>Subir Foto</label>
+                    <input type="file" name="Foto" />
+                    <br />
+                    <label>Nombre</label>
+                    <input class="form-control" name="Nombre" autocomplete="off" placeholder="Ingrese nombre de la canción" minlength="3" value="@Model.Nombre" />
+
+                    <br />
+                    <label>Género</label>
+                    <input class="form-control" name="Genero" autocomplete="off" placeholder="Ingrese Género de la canción" minlength="3" value="@Model.Genero" />
+
+                    <br />
+                    <label>Duración</label>
+                    <input type="time" class="form-control" name="Duracion" autocomplete="off" value="@Model.Duracion" />
+
+                    <br />
+                    Artistas <select class="form-control" name="IdArtista">
+                        <option value="">-- Selecciona una opción --</option>
+                        @foreach (var item in ViewBag.Artista)
+                        {
+                <option value="@item.Id">@item.Apellido</option>}
+                    </select>
+                    <br />
+                    <br />
+                    Álbumes <select class="form-control" name="IdAlbum">
+                        <option value="">-- Selecciona una opción --</option>
+                        @foreach (var item in ViewBag.Album)
+                        {
+                <option value="@item.Id">@item.Nombre</option>}
+                    </select>
+                    <br />
+
+
+
+                    <button class="btn btn-success">Subir</button>
+                </form>
+            </div>
+        </div>
     </div>
-    <br>
-    <div>
-        <input type="submit" value="Subir" />
-    </div>
-    <strong>@ViewBag.message</strong>
-</form>
+</div>

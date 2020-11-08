@@ -1,0 +1,28 @@
+﻿@{ var cancion = (BeamyMusic.Models.Album)Model; }
+
+
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-lg-4">
+            <div class="text-lef">
+                <form action="/Admin/CrearAlbum" enctype="multipart/form-data" method="post">
+                    <label>Nombre</label>
+                    <input class="form-control" name="Nombre" autocomplete="off" value="@Model.Nombre" />
+
+                    <br />
+                    <label>Fecha De Lanzamiento</label>
+                    <input class="form-control" name="FechaDeLanzamiento" autocomplete="off" value="@Model.FechaDeLanzamiento" />
+
+                    <br />
+                    <label>Foto</label>
+                   
+                    <input type="file" name="Foto" />
+                    <br />
+                    <button class="btn btn-success">Subir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

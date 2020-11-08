@@ -19,7 +19,7 @@ namespace FinancistoCloneWeb.Controllers
         protected Usuario LoggedUser()
         {
             var claim = HttpContext.User.Claims.FirstOrDefault();
-            var user = context.UsuarioCs.Where(o => o.Nick == claim.Value).FirstOrDefault();
+            var user = context.Usuarios.Where(o => o.Nick == claim.Value).FirstOrDefault();
             return user;
         }
     }

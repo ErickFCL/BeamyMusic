@@ -6,7 +6,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\FtArtista\" />
+    <Folder Include="wwwroot\FtAlbum\" />
+    <Folder Include="wwwroot\FtPlayList\" />
+    <Folder Include="wwwroot\FtCancion\" />
   </ItemGroup>
 
 </Project>
