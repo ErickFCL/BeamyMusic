@@ -1,3 +1,81 @@
+
+.Artista .UsuarioN {
+    position: relative;
+    float: left;
+    top: 45%;
+    left: 0%;
+}
+
+    .Artista .UsuarioN .boton_2 span::after {
+        content: "Siguiendo";
+        padding: 3px;
+        padding-left: 10px;
+        padding-right: 10px;
+        text-decoration: none;
+        color: #4cae4c;
+    }
+
+    .Artista .UsuarioN .boton_2:hover {
+        text-decoration: none;
+        padding: 3px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-family: helvetica;
+        font-weight: 300;
+        font-size: 22px;
+        font-style: italic;
+        color: #4cae4c;
+        background-color: #fff !important;
+        border-radius: 25px;
+        border: 3px solid #4cae4c !important;
+    }
+
+    .Artista .UsuarioN .boton_2 {
+        text-decoration: none;
+        padding: 3px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-family: helvetica;
+        font-weight: 300;
+        font-size: 22px;
+        font-style: italic;
+        color: #4cae4c;
+        background-color: #fff !important;
+        border-radius: 25px;
+        border: 3px solid #4cae4c !important;
+    }
+
+
+        .Artista .UsuarioN .boton_2:hover span::after {
+            content: "Dejar de Seguir";
+        }
+
+    .Artista .UsuarioN .boton_1 {
+        text-decoration: none;
+        padding: 3px;
+        padding-left: 10px;
+        padding-right: 10px;
+        font-family: helvetica;
+        font-weight: 300;
+        font-size: 22px;
+        font-style: italic;
+        color: #000000;
+        background-color: #fff;
+        border-radius: 25px;
+        border: 3px solid #000000;
+    }
+
+        .Artista .UsuarioN .boton_1:hover {
+            color: #4cae4c;
+            background-color: #fff;
+            border: 3px solid #4cae4c;
+            text-decoration: none;
+        }
+
+
+
+
+
 .Artista {
     width: 70%;
     height: 30%;
@@ -28,7 +106,7 @@
     overflow: hidden;
     left: 25%;
     font-family: sans-serif;
-    font-size: 80px;
+    font-size: 75px;
     font-weight: 600;
     line-height: 80px;
     text-transform: uppercase;

@@ -30,13 +30,13 @@
             <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-content">
                     <div class="sidebar-brand">
-                        <a href="/usuario/interface">Beamy Music</a>
+                        <a href="/usuario/interface" class="h-100 badge badge-light">Beamy Music</a>
                         <i class="fa fa-hand-peace-o"></i>
                         <a href="/autor/logout"><i class="fa fa-sign-out float-right"></i></a>
                     </div>
                     <div class="sidebar-header">
                         <div class="user-pic">
-                            <img class="img-responsive img-rounded" src="~/Images/userNew.png" alt="User picture">
+                            <img class="img-responsive img-rounded" src="@ViewBag.fotoPerfil.Imagen" alt="User picture">
                         </div>
                         <div class="user-info">
                             <span class="user-name">
@@ -69,9 +69,9 @@
                                 <span>General</span>
                             </li>
                             <li>
-                                <a href="/Usuario/Editar">
-                                    <i class="fa fa-cog"></i>
-                                    <span>Editar Usuario</span>
+                                <a href="/usuario/Albumes">
+                                    <i class="fa fa-book"></i>
+                                    Álbumes
                                 </a>
 
                             </li>
@@ -80,9 +80,9 @@
 
 
 
-                                <a href="#popup">
-                                    <i class="fa fa-arrow-up"></i>
-                                    <span>Subir Canción</span>
+                                <a href="/usuario/listaamigosseguidos">
+                                    <i class="fa fa-users"></i>
+                                    Amigos
                                 </a>
 
 
@@ -91,22 +91,22 @@
 
                             </li>
                             <!--<li class="sidebar-dropdown">
-                                <a href="#">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <span></span>
+                    <a href="#">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span></span>
 
-                                </a>
+                    </a>
 
-                            </li>
+                </li>
 
-                            <li class="sidebar-dropdown">
-                                <a href="#">
-                                    <i class="fa fa-globe"></i>
-                                    <span>Maps</span>
-                                </a>
+                <li class="sidebar-dropdown">
+                    <a href="#">
+                        <i class="fa fa-globe"></i>
+                        <span>Maps</span>
+                    </a>
 
 
-                            </li>-->
+                </li>-->
                             <li class="header-menu">
                                 <span>Música</span>
                             </li>
@@ -123,27 +123,50 @@
                                     <span>Play List</span>
                                 </a>
                             </li>
-                            
+                            <li>
+                                <a href="#popup"><i class="fa fa-plus"></i>Crear Play List</a>
+                            </li>
+
+                            <li>
+
+                                <ul>
+                                    @{
+                                        int cont = 0;
+                                    }
+                                    @foreach (var item in ViewBag.ListPLayMenu)
+                                    {
+                                        cont++;
+                                        <li>
+                                            <a href="/usuario/listaPlaylist?id=@item.Id">@cont.  @item.Nombre</a>
+                                        </li>
+                                    }
+                                </ul>
+
+                            </li>
+
                         </ul>
                     </div>
                     <!-- sidebar-menu  -->
                 </div>
                 <!-- sidebar-content
-                <div class="sidebar-footer">
-                    <a href="#">
-                        <i class="fa fa-bell"></i>
-                        <span class="badge badge-pill badge-warning notification">Música gratis</span>
-                    </a>
+    <div class="sidebar-footer">
+        <a href="#">
+            <i class="fa fa-bell"></i>
+            <span class="badge badge-pill badge-warning notification">Música gratis</span>
+        </a>
 
-                    <a href="#">
-                        <i class="fa fa-cog"></i>
-                        <span class="badge-sonar"></span>
-                    </a>
-                    <a href="#">
-                        <i class="fa fa-power-off"></i>
-                    </a>
+        <a href="#">
+            <i class="fa fa-cog"></i>
+            <span class="badge-sonar"></span>
+        </a>
+        <a href="#">
+            <i class="fa fa-power-off"></i>
+        </a>
+    </div>
+         sidebar-wrapper  -->
+                <div class="sidebar-menu" align="center">
+                    <a href="/usuario/conocenos"><h1 class="h-100 badge badge-danger" style="color: #fff">CONÓCENOS</h1></a>
                 </div>
-                     sidebar-wrapper  -->
             </nav>
 
 
@@ -159,14 +182,29 @@
                 <div class="container">
                     @foreach (var item in ViewBag.PlayListas)
                     {
-                        <a href="/usuario/listaPlaylist?id=@item.Id">
-                            <div class="box">
-                                <img src="@item.Foto" class="item">
-                                <div class="capa">
-                                    <h2>@item.Nombre</h2>
-                                </div>
+                    <a href="/usuario/listaPlaylist?id=@item.Id">
+                        <div class="box">
+                            <img src="@item.Foto" class="item">
+                            <div class="capa">
+                                <h2>@item.Nombre  <br />
+                                @if(item.Estado == 0)
+                                {
+                                   
+                                    <strong class="text-dark">(Público</strong>
+                                }
+                                else
+                                {
+                                    <strong class="text-dark">(Privado)</strong>
+                                }
+                                
+                                </h2>
+                                                  
                             </div>
-                        </a>
+                           
+                        </div>
+                        
+                    </a>
+                      
                     }
                 </div>
 
@@ -184,7 +222,7 @@
 
     <div id="popup" class="overlay">
         <div id="popupBody">
-            <h2>Subir Canción a Beamy Music</h2>
+            <h2>CREAR PLAY LIST</h2>
             <a id="cerrar" href="#">&times;</a>
             <div class="popupContent">
 
@@ -198,19 +236,19 @@
                         <div class="col-lg-4">
                             <div class="text-lef">
                                 <form action="/usuario/PlayList" enctype="multipart/form-data" method="post">
-                                    <label>Nombre</label>
+                                    Nombre
                                     <input class="form-control" name="Nombre" autocomplete="off" value="@Model.Nombre" />
 
                                     <br />
 
-                                    <label>Estado</label>
+                                    Estado 
                                     <select name="Estado">
                                         <option value="0">Público</option>
                                         <option value="1">Privado</option>
                                     </select>
 
                                     <br />
-                                    <label>Foto </label>
+                                    Foto
                                     <input type="file" name="Foto" />
 
                                     <br />

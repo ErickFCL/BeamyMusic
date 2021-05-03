@@ -65,7 +65,13 @@
                         <label>Contraseña</label>
                         <input class="form-control" type="password" name="Pass" autocomplete="off" placeholder="Entre 6 y 8" value="@Model.Pass" pattern="[A-Za-z][A-Za-z0-9]*[0-9][A-Za-z0-9]*" title="Una contraseña válida es un conjuto de caracteres, donde cada uno consiste de una letra mayúscula o minúscula, o un dígito. La contraseña debe empezar con una letra y contener al menor un dígito" required minlength="6" maxlength="8" />
                         <strong>@Html.ValidationMessage("Password")</strong>   <br />
+
+                        
+                        <label>Confirme Contraseña</label>
+                        <input class="form-control" type="password" name="Pass2"  placeholder="Confirmar Contraseña" autocomplete="off" required />
+                        <strong> @Html.ValidationMessage("PasswordConf")</strong>   <br />
                         <br />
+
                         <button class="btn btn-success">Registrarse</button>
                     </form>
                 </div>

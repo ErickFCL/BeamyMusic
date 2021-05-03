@@ -1,0 +1,444 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beamy Music</title>
+    <link rel="icon" type="image/jpg" href="~/Img/play.png" />
+    <link rel="stylesheet" href="~/css/style3.css" />
+    <link rel="stylesheet" href="~/css/style10.css" />
+    <link rel="stylesheet" href="~/css/style11.css" />
+    <link rel="stylesheet" href="~/css/style6.css" />
+
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css" />
+    <style type="text/css">
+       
+
+       .excluir{
+           top: 370px;
+       }
+        h3 {
+            font-size: 34px;
+            margin-bottom: 34px;
+            border-bottom: 4px solid #e6e6e6;
+            padding-bottom: 15px;
+        }
+
+        .page-content .main .container .row table {
+            width: 80%;
+        }
+
+        .col-md-3 {
+            margin-bottom: 40px;
+        }
+
+        .album-poster {
+            position: relative;
+            display: block;
+            border-radius: 7px;
+            width: 30px;
+            height: 30px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px #132af5a1;
+            transition: all ease 0.4s;
+        }
+
+            .album-poster:hover {
+                box-shadow: none;
+                transform: scale(0.98) translateY(5px);
+            }
+
+            .album-poster img {
+                width: 30px;
+                height: 30px;
+            }
+
+        .album-poster2 {
+            position: relative;
+            display: block;
+            border-radius: 7px;
+            width: 150px;
+            height: 225px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px #3d2173a1;
+            transition: all ease 0.4s;
+        }
+
+            .album-poster2:hover {
+                box-shadow: none;
+                transform: scale(0.98) translateY(5px);
+            }
+
+            .album-poster2 img {
+                width: 150px;
+                height: 225px;
+            }
+
+
+
+        p {
+            font-size: 15px;
+        }
+
+        h4 {
+            text-align: center;
+        }
+
+        /*default is hide music player*/
+        #aplayer {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            margin: 0;
+            box-shadow: 0 -2px 2px #dadada;
+            background-color: #fff;
+            transition: all ease 0.5s;
+        }
+
+            #aplayer.showPlayer {
+                bottom: 0;
+            }
+
+
+        /*MUSIC PLAYER CUSTOMIZING STYLE*/
+
+
+        .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-loaded {
+            background: #e0e0e0;
+            height: 4px;
+        }
+
+        .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-played {
+            height: 4px;
+            background-color: #32bb2c !important;
+        }
+
+            .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-played .aplayer-thumb {
+                background-color: #32bb2c !important;
+            }
+
+        .aplayer .aplayer-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .aplayer .aplayer-info .aplayer-controller .aplayer-time .aplayer-icon path {
+            fill: #000;
+        }
+
+        .aplayer .aplayer-info .aplayer-music {
+            margin-bottom: 5px;
+        }
+
+        #aplayer {
+            width: 85%;
+            float: left;
+            left: 15%;
+        }
+
+
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #header {
+            margin: auto;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        ul, ol {
+            list-style: none;
+        }
+
+        .nav {
+            margin: 0 auto; /*Centramos automaticamente*/
+        }
+
+            .nav > li {
+                float: left;
+            }
+
+            .nav li a {
+                background-color: #fff;
+                color: #000000;
+                text-decoration: none;
+                padding: 10px 12px;
+                display: block;
+            }
+
+                .nav li a:hover {
+                    background-color: #434343;
+                }
+
+            .nav li ul {
+                display: none;
+                position: absolute;
+                min-width: 140px;
+            }
+
+            .nav li:hover > ul {
+                display: block;
+            }
+
+            .nav li ul li {
+                position: relative;
+            }
+
+                .nav li ul li ul {
+                    right: -140px;
+                    top: 0px;
+                }
+    </style>
+</head>
+<body>
+    <div class="container2">
+        <div class="page-wrapper chiller-theme toggled">
+            <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+                <i class="fas fa-bars"></i>
+            </a>
+            <nav id="sidebar" class="sidebar-wrapper">
+                <div class="sidebar-content">
+                    <div class="sidebar-brand">
+                        <a href="/usuario/interface" class="h-100 badge badge-light">Beamy Music</a>
+                        <i class="fa fa-hand-peace-o"></i>
+                        <a href="/autor/logout"><i class="fa fa-sign-out float-right"></i></a>
+
+                    </div>
+                    <div class="sidebar-header">
+                        <div class="user-pic">
+                            <img class="img-responsive img-rounded" src="@ViewBag.fotoPerfil.Imagen" alt="User picture">
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">
+                                <strong>@ViewData["Message"]</strong>
+                            </span>
+                            <span class="user-role">Usuario</span>
+                            <span class="user-status">
+                                <i class="fa fa-circle"></i>
+                                <span style="color:green">Online</span>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- sidebar-header  -->
+                    <div class="sidebar-search">
+                        <div>
+                            <div class="input-group">
+                                <form action="/usuario/interface">
+                                    <input class="form-control" type="search" name="search" placeholder="Search..." value="@ViewBag.Buscar">
+
+                                    <button class="btn btn-outline-success my-2" type="submit">Buscar</button>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- sidebar-search  -->
+                    <div class="sidebar-menu">
+                        <ul>
+                            <li class="header-menu">
+                                <span>General</span>
+                            </li>
+                            <li>
+                                <a href="/usuario/Albumes">
+                                    <i class="fa fa-book"></i>
+                                    Álbumes
+                                </a>
+
+                            </li>
+                            <li>
+
+
+
+
+                                <a href="/usuario/listaamigosseguidos">
+                                    <i class="fa fa-users"></i>
+                                    Amigos
+                                </a>
+
+
+
+
+
+                            </li>
+                            <!--<li class="sidebar-dropdown">
+                    <a href="#">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span></span>
+
+                    </a>
+
+                </li>
+
+                <li class="sidebar-dropdown">
+                    <a href="#">
+                        <i class="fa fa-globe"></i>
+                        <span>Maps</span>
+                    </a>
+
+
+                </li>-->
+                            <li class="header-menu">
+                                <span>Música</span>
+                            </li>
+                            <li>
+                                <a href="/Usuario/Favoritos">
+                                    <i class="fa fa-heart"></i>
+                                    <span>Mis Favoritas</span>
+
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/Usuario/PlayList">
+                                    <i class="fa fa-star"></i>
+                                    <span>Play List</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#popup"><i class="fa fa-plus"></i>Crear Play List</a>
+                            </li>
+                            <div class="container">
+                                <li>
+                                    <div class="container">
+                                        <ul>
+                                            @{
+                                                int con = 0;
+                                            }
+                                            @foreach (var item in ViewBag.ListPLayMenu)
+                                            {
+                                                con++;
+                                                <li>
+                                                    <a href="/usuario/listaPlaylist?id=@item.Id">@con.  @item.Nombre</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                            </div>
+                        </ul>
+
+
+                    </div>
+                    <!-- sidebar-menu  -->
+                </div>
+                <!-- sidebar-content
+    <div class="sidebar-footer">
+        <a href="#">
+            <i class="fa fa-bell"></i>
+            <span class="badge badge-pill badge-warning notification">Música gratis</span>
+        </a>
+
+        <a href="#">
+            <i class="fa fa-cog"></i>
+            <span class="badge-sonar"></span>
+        </a>
+        <a href="#">
+            <i class="fa fa-power-off"></i>
+        </a>
+    </div>
+         sidebar-wrapper  -->
+                <div class="sidebar-menu" align="center">
+                    <a href="/usuario/conocenos"><h1 class="h-100 badge badge-danger" style="color: #fff">CONÓCENOS</h1></a>
+                </div>
+            </nav>
+
+
+            <main class="page-content">
+                <div>
+                    <h1>Hola: @ViewBag.fotoPerfil.Nombre @ViewBag.fotoPerfil.Apellido</h1>
+                    <hr />
+                </div>
+                <div align="center">
+                    <a href="https://www.facebook.com/Erick.chilon.llico"><img src="~/Img/BEAMY.png" width="500" height="500" alt="Alternate Text" /></a>
+                    <hr />
+                    <div align="left">
+                        <span style="color: #ea2152">DESARROLLADORES:</span><br />
+
+                        <ul>
+                            <a href="https://www.facebook.com/Erick.chilon.llico"><li>Erick Chilón Llico</li></a>
+                            <a href="https://www.facebook.com/miguelanthony.vasquezcabanillas"><li>Miguel Vásquez Cabanillas</li></a>
+                            <a href="https://www.facebook.com/brayan.pajarescasas"><li>Brayan Pajares Casas</li></a>
+                            
+                        </ul>
+                    </div>
+                </div>
+                <p>
+                    ¿Qué tipo de información recopilamos?
+                    Debemos tratar tu información a fin de proporcionarte los Productos de Facebook. El tipo de información que recopilamos depende de la forma en la que usas nuestros Productos. Puedes obtener información sobre cómo acceder a la información que recopilamos y cómo eliminarla en la configuración de Facebook y de Instagram.
+                    Cosas que tú y otras personas hacéis y nos proporcionáis.
+                    Información y contenido que nos proporcionas. Recopilamos el contenido, las comunicaciones y otros datos que proporcionas cuando usas nuestros Productos, por ejemplo, cuando te registras para crear una cuenta, creas o compartes contenido y envías mensajes a otras personas o te comunicas con ellas. Esta información puede corresponder a datos incluidos en el contenido que proporcionas (por ejemplo, los metadatos) o relacionados con este, como el lugar donde se hizo una foto o la fecha de creación de un archivo. También puede incluir el contenido que ves a través de las funciones que ponemos a tu disposición, como la cámara, de modo que podamos realizar acciones como sugerirte máscaras y filtros que quizá te interesen, así como darte consejos sobre cómo usar los formatos de cámara. Nuestros sistemas realizan automáticamente el tratamiento del contenido y las comunicaciones que tú y otras personas proporcionáis para analizar el contexto y lo que incluyen en relación con los propósitos que se describen a continuación. Obtén más información sobre cómo controlar quién puede ver el contenido que compartes.
+                    Datos de categorías especiales: Puedes optar por proporcionar información en los campos de tu perfil de Facebook o los acontecimientos importantes sobre tus opiniones religiosas o políticas, indicar cuáles son tus intereses o aspectos relacionados con tu salud. Esta y otra información (como el origen étnico o racial, las creencias filosóficas o la afiliación sindical) puede estar sujeta a protección especial en virtud de las leyes de tu país.
+                    Redes y conexiones. Recopilamos información sobre las personas, las páginas, las cuentas, los hashtags y los grupos a los que estás conectado y cómo interactúas con ellos en nuestros Productos, por ejemplo, las personas con las que más te comunicas o los grupos de los que formas parte. También recopilamos información de contacto si eliges subirla, sincronizarla o importarla desde un dispositivo (como una agenda de direcciones, un registro de llamadas o un historial de SMS). Usamos estos datos para propósitos como ayudarte a ti y a otros a encontrar personas que quizá conoces, así como para las finalidades que se indican a continuación.
+                    Tu uso. Recopilamos información sobre cómo usas nuestros Productos, como los tipos de contenido que ves o con los que interactúas, las funciones que utilizas, las acciones que llevas a cabo, las personas o cuentas con las que interactúas y la hora, la frecuencia y la duración de tus actividades. Por ejemplo, registramos cuándo estás usando y cuándo has usado nuestros Productos por última vez, y qué publicaciones, vídeos y otro tipo de contenido ves en nuestros Productos. También recopilamos información sobre cómo usas funciones como nuestra cámara.
+                    Información sobre transacciones realizadas en nuestros Productos. Si usas nuestros Productos para efectuar compras u otras transacciones económicas (por ejemplo, cuando compras algo en un juego o haces una donación), recopilamos datos sobre dichas compras o transacciones. Esos datos incluyen la información del pago, como el número de tu tarjeta de crédito o débito y otra información sobre la tarjeta, así como datos sobre la cuenta y la autenticación, y detalles de facturación, envío y contacto.
+                    La actividad de otros usuarios y la información que proporcionan sobre ti. También recibimos y analizamos contenido, comunicaciones e información que nos proporcionan otras personas al usar nuestros Productos. Estos datos pueden incluir información sobre ti, como en caso de que otras personas compartan o comenten una foto tuya, te envíen un mensaje o suban, sincronicen o importen tu información de contacto.
+                    Información sobre el dispositivo
+                    Tal como se describe a continuación, recopilamos información de los ordenadores, los teléfonos, las televisiones online y otros dispositivos conectados a internet que usas y que se integran con nuestros Productos, y la combinamos en los diferentes dispositivos que empleas. Por ejemplo, utilizamos la información que recopilamos sobre el uso que haces de nuestros Productos en el teléfono para mejorar la personalización del contenido (incluidos los anuncios) o las funciones que ves cuando usas nuestros Productos en otro dispositivo, como un portátil o una tableta, o para detectar si has realizado alguna acción en respuesta a un anuncio que te hemos mostrado en el teléfono o en otro dispositivo.
+
+                    Entre los datos que obtenemos de los dispositivos se encuentran los siguientes:
+
+                    Características del dispositivo: información como el sistema operativo, la versión de hardware y software, el nivel de carga de la batería, la potencia de la señal, el espacio de almacenamiento disponible, el tipo de navegador, los tipos y nombres de aplicaciones o archivos, y los plugins.
+                    Operaciones del dispositivo: información sobre las operaciones y los comportamientos realizados en el dispositivo, como poner una ventana en primer o segundo plano, o los movimientos del ratón (lo que permite distinguir a los humanos de los bots).
+                    Identificadores: identificadores únicos, identificadores de dispositivos y de otro tipo (por ejemplo, de juegos, aplicaciones o cuentas que usas) y Family Device ID (u otros identificadores que pertenecen de forma exclusiva a los Productos de las empresas de Facebook y se vinculan con la misma cuenta o el mismo dispositivo).
+                    Señales del dispositivo: señales de Bluetooth e información sobre balizas, torres de telefonía móvil y puntos de acceso a redes Wi-Fi cercanos.
+                    Datos de la configuración del dispositivo: información que nos permites recibir al activar la configuración correspondiente en el dispositivo, como el acceso a la ubicación de GPS, la cámara y las fotos.
+                    Red y conexiones: información como el nombre del operador de telefonía móvil o proveedor de internet, el idioma, la zona horaria, el número de teléfono móvil, la dirección IP, la velocidad de la conexión y, en algunos casos, información sobre otros dispositivos que se encuentran cerca o están en tu red para ayudarnos, por ejemplo, a transmitir un vídeo desde el teléfono al televisor.
+                    Datos de cookies: datos procedentes de las cookies almacenadas en el dispositivo, incluida la configuración y los identificadores de estas. Obtén más información sobre cómo usamos las cookies en la Política de cookies de Facebook y la Política de cookies de Instagram.
+                </p>
+
+            </main>
+            <!-- page-content" -->
+        </div>
+    </div>
+    <!-- page-wrapper -->
+    <!---->
+    <!---->
+    <script src="~/js/site2.js" asp-append-version="true"></script>
+
+    <div id="popup" class="overlay">
+        <div id="popupBody">
+            <h2>CREAR PLAY LIST</h2>
+            <a id="cerrar" href="#">&times;</a>
+            <div class="popupContent">
+
+                @{ List<BeamyMusic.Models.PlayList> playLists = ((List<BeamyMusic.Models.PlayList>)ViewBag.playList); }
+
+
+
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-4">
+                            <div class="text-lef">
+                                <form action="/usuario/PlayList" enctype="multipart/form-data" method="post">
+                                    <label>Nombre</label>
+                                    <input class="form-control" name="Nombre" autocomplete="off" value="@Model.Nombre" />
+
+                                    <br />
+
+                                    <label>Estado</label>
+                                    <select name="Estado">
+                                        <option value="0">Público</option>
+                                        <option value="1">Privado</option>
+                                    </select>
+
+                                    <br />
+                                    <label>Foto </label>
+                                    <input type="file" name="Foto" />
+
+                                    <br />
+                                    <button class="btn btn-success">Crear</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

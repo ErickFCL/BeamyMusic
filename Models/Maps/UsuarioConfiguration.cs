@@ -27,6 +27,8 @@ namespace BeamyMusic.DataBase.Maps
             builder.HasMany(o => o.PlayListas).
                 WithOne(o => o.Usuarios).
                 HasForeignKey(o => o.IdUsuario);
+
+         
         }
     }
 }

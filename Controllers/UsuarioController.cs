@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using ProyBeamyMusic.Models;
 
 namespace BeamyMusic.Controllers
 {
@@ -36,42 +37,52 @@ namespace BeamyMusic.Controllers
             _hostEnv = hostEnv;
             this.configuration = configuration;
         }
-       
-
         [HttpGet]
         public ActionResult Interface(string search)
         {
+
+            ViewBag.fotoPerfil = _context.Usuarios.Where(w => w.Id == LoggedUser().Id).FirstOrDefault();
             ViewBag.ListPLayMenu = _context.PlayListas.Where(q => q.IdUsuario == LoggedUser().Id).ToList();
-            
+
             ViewData["Message"] = LoggedUser().Nombre;
-            ViewBag.ListaPlayList = _context.PlayListas.Where(x => x.Estado == 0).OrderBy(o => o.Nombre).ToList();
+            ViewBag.ListaPlayList = _context.PlayListas.Where(x => x.Estado == 0 && x.IdUsuario == 1).OrderBy(o => o.Nombre).ToList();
             ViewBag.Canciones = _context.Canciones.Include(o => o.Albumes).Include(u => u.Artistas).ToList();
             ViewBag.Buscar = search;
             ViewBag.PlayListas2 = _context.PlayListas.Where(u => u.IdUsuario == LoggedUser().Id);
             var cancion = _context.Canciones
                 .Include(o => o.Artistas)
-                .Include(y=>y.Albumes)
+                .Include(y => y.Albumes)
                 .ToList();
 
             var artista = _context.Artistas
                 .ToList();
-
+            var usuario = _context.Usuarios.Where(f=>f.Id != LoggedUser().Id)
+               .ToList();
+            var apellido = _context.Usuarios
+               .ToList();
             if (!string.IsNullOrEmpty(search))
             {
+                ViewBag.VerificaArtista = artista.Where(s => s.Apellido.Contains(search)).FirstOrDefault();
+                ViewBag.VerificaCancion = cancion.Where(s => s.Nombre.Contains(search)).FirstOrDefault();
+                ViewBag.VerificaUsuario = usuario.Where(s => s.Nombre.Contains(search) || s.Apellido.Contains(search)).FirstOrDefault();
+               
                 ViewBag.PlayListas = _context.PlayListas.Where(u => u.IdUsuario == LoggedUser().Id);
-                cancion =  cancion.Where(s => s.Nombre.Contains(search)).ToList();
+                cancion = cancion.Where(s => s.Nombre.Contains(search)).ToList();
                 ViewBag.cancionPase = cancion;
                 artista = artista.Where(s => s.Apellido.Contains(search)).ToList();
                 ViewBag.artistaPase = artista;
-
-                return PartialView("Buscar");           
+                usuario = usuario.Where(s => s.Nombre.Contains(search) || s.Apellido.Contains(search)).ToList();
+                ViewBag.usuarioPase = usuario;
+                return PartialView("Buscar", new PlayList());
             }
 
-            return PartialView(new Cancion()); 
+            return PartialView(new Cancion());
         }
         [HttpPost]
         public ActionResult Interface(Cancion canciones, IFormFile Cancion, IFormFile Foto)
         {
+            ViewBag.ListPLayMenu = _context.PlayListas.Where(q => q.IdUsuario == LoggedUser().Id).ToList();
+
             if (ModelState.IsValid)
             {
                 // Guardar archivos rn rl servidor:
@@ -100,15 +111,17 @@ namespace BeamyMusic.Controllers
             else
                 return View("Interface", canciones);
         }
-       
-       
         [HttpGet]
         public ActionResult ListaPlayList(int id)
         {
+            ViewBag.fotoPerfil = _context.Usuarios.Where(w => w.Id == LoggedUser().Id).FirstOrDefault();
+            ViewBag.ListPLayMenu = _context.PlayListas.Where(q => q.IdUsuario == LoggedUser().Id).ToList();
+
             ViewData["Message"] = LoggedUser().Nombre;
             ViewBag.user2 = _context.PlayListCanciones.Where(o => o.IdPlayList == id)
                 .Include(x => x.PlayListas).FirstOrDefault();
-            if (ViewBag.user2.PlayListas.IdUsuario == 1)
+            ViewBag.PlayLista = _context.PlayListas.Where(u => u.Id == id).FirstOrDefault();
+            if (ViewBag.PlayLista.IdUsuario != LoggedUser().Id)
             {
                 ViewBag.User = true;
             }
@@ -129,15 +142,20 @@ namespace BeamyMusic.Controllers
         [HttpGet]
         public ActionResult PlayList()
         {
+            ViewBag.fotoPerfil = _context.Usuarios.Where(w => w.Id == LoggedUser().Id).FirstOrDefault();
+            ViewBag.ListPLayMenu = _context.PlayListas.Where(q => q.IdUsuario == LoggedUser().Id).ToList();
+
             ViewData["Message"] = LoggedUser().Nombre;
             ViewBag.PlayListas = _context.PlayListas.Where(o => o.IdUsuario == LoggedUser().Id)
                 .ToList();
-
+           
             return PartialView(new PlayList());
         }
         [HttpPost]
         public ActionResult PlayList(PlayList playList, IFormFile Foto)
         {
+           
+
             if (ModelState.IsValid)
             {
                 // Guardar archivos rn rl servidor:
@@ -224,16 +242,20 @@ namespace BeamyMusic.Controllers
         [HttpGet]
         public ActionResult Favoritos()
         {
+            ViewBag.fotoPerfil = _context.Usuarios.Where(w => w.Id == LoggedUser().Id).FirstOrDefault();
+            ViewBag.ListPLayMenu = _context.PlayListas.Where(q => q.IdUsuario == LoggedUser().Id).ToList();
+            
             ViewData["Message"] = LoggedUser().Nombre;
             ViewBag.favoritos = _context.Favoritos.Where(o => o.IdUsuario == LoggedUser().Id)
                 .Include(x => x.Canciones.Artistas)
                 .Include(o=>o.Canciones.Albumes).ToList();
             ViewBag.PlayListas = _context.PlayListas.Where(u => u.IdUsuario == LoggedUser().Id);
-            return PartialView();
+            return PartialView(new PlayList());
         }
         [HttpGet]
         public ActionResult Favorito(int Cancion,int PlayListActual)
         {
+           
             var favoritos = new Favorito
             {
                 IdUsuario = LoggedUser().Id,
@@ -248,6 +270,7 @@ namespace BeamyMusic.Controllers
         [HttpGet]
         public ActionResult Favorito3(int idCancion, int idArtista)
         {
+          
             var favoritos = new Favorito
             {
                 IdUsuario = LoggedUser().Id,
@@ -262,6 +285,8 @@ namespace BeamyMusic.Controllers
         [HttpGet]
         public ActionResult Favorito2(int Cancion, string _search)
         {
+            
+
             var favoritos = new Favorito
             {
                 IdUsuario = LoggedUser().Id,
@@ -276,6 +301,9 @@ namespace BeamyMusic.Controllers
         [HttpGet]
         public ActionResult ListaArtista(int id)
         {
+            ViewBag.fotoPerfil = _context.Usuarios.Where(w => w.Id == LoggedUser().Id).FirstOrDefault();
+            ViewBag.ListPLayMenu = _context.PlayListas.Where(q => q.IdUsuario == LoggedUser().Id).ToList();
+
             ViewData["Message"] = LoggedUser().Nombre;
             ViewBag.artista = _context.Canciones.Where(o => o.IdArtista == id).
                 Include(x => x.Albumes).
@@ -283,7 +311,7 @@ namespace BeamyMusic.Controllers
             ViewBag.PlayListas = _context.PlayListas.Where(u => u.IdUsuario == LoggedUser().Id);
             ViewBag.artista2 = _context.Artistas.Where(o => o.Id == id).FirstOrDefault();
 
-            return PartialView();
+            return PartialView(new PlayList());
         }
 
         [HttpGet]
@@ -304,10 +332,143 @@ namespace BeamyMusic.Controllers
 
             return RedirectToAction("Favoritos");
         }
-        public ActionResult Prueba()
+        
+        [HttpGet]
+        public IActionResult ListaUsuario( int id)
         {
-            return PartialView();
+
+            ViewBag.fotoPerfil = _context.Usuarios.Where(w => w.Id == LoggedUser().Id).FirstOrDefault();
+            ViewBag.ListPLayMenu = _context.PlayListas.Where(q => q.IdUsuario == LoggedUser().Id).ToList();
+
+
+            ViewData["Message"] = LoggedUser().Nombre;
+            ViewBag.Usuario = _context.Usuarios.Where(x=>x.Id == id).FirstOrDefault();
+            ViewBag.VerificarPlaylisP = _context.PlayListas.Where(u => u.IdUsuario == id).FirstOrDefault();
+            ViewBag.PlayListas = _context.PlayListas.Where(u => u.IdUsuario == id && u.Estado == 0).ToList();
+            ViewBag.Subir = _context.DetalleSeguir.Where(x => x.IdAmigo == id && x.IdUsuario == LoggedUser().Id).FirstOrDefault();
+            return PartialView(new PlayList());
         }
+        [HttpGet]
+        public IActionResult Seguir(int id2)
+        {
+            DetalleSeguir seguidor = new DetalleSeguir
+            {
+                IdUsuario = LoggedUser().Id,
+                IdAmigo = id2,
+                FechaSeguir = DateTime.Now
+            };
+            _context.DetalleSeguir.Add(seguidor);
+            _context.SaveChanges();
+            return RedirectToAction("ListaUsuario", new { id = id2});
+        }
+        [HttpGet]
+        public IActionResult DejarSeguir(int id2)
+        {
+            var DejarSeguir = _context.DetalleSeguir.Where(o => o.IdUsuario == LoggedUser().Id && o.IdAmigo == id2).FirstOrDefault();
+            _context.DetalleSeguir.Remove(DejarSeguir);
+            _context.SaveChanges();
+            return RedirectToAction("ListaUsuario", new { id = id2 });
+        }
+        [HttpGet]
+        public IActionResult ListaAmigosSeguidos()
+        {
+            ViewBag.fotoPerfil = _context.Usuarios.Where(w => w.Id == LoggedUser().Id).FirstOrDefault();
+            ViewData["Message"] = LoggedUser().Nombre;
+            ViewBag.ListPLayMenu = _context.PlayListas.Where(q => q.IdUsuario == LoggedUser().Id).ToList();
+            ViewBag.ListaSeguidos = _context.DetalleSeguir.Where(y => y.IdUsuario == LoggedUser().Id).
+                Include(s=>s.Usuarios).ToList();
+            return PartialView(new PlayList());
+        }
+        [HttpGet]
+        public IActionResult Albumes()
+        {
+            ViewBag.fotoPerfil = _context.Usuarios.Where(w => w.Id == LoggedUser().Id).FirstOrDefault();
+            ViewData["Message"] = LoggedUser().Nombre;
+            ViewBag.ListPLayMenu = _context.PlayListas.Where(q => q.IdUsuario == LoggedUser().Id).ToList();
+            ViewBag.Albumes = _context.Albumes.ToList();
+            return PartialView(new PlayList());
+        }
+        public ActionResult ListaAlbum(int idAlbum)
+        {
+            ViewBag.fotoPerfil = _context.Usuarios.Where(w => w.Id == LoggedUser().Id).FirstOrDefault();
+            ViewBag.ListPLayMenu = _context.PlayListas.Where(q => q.IdUsuario == LoggedUser().Id).ToList();
+
+            ViewData["Message"] = LoggedUser().Nombre;
+            ViewBag.Canciones = _context.Canciones.Where(o => o.IdAlbum == idAlbum).
+                Include(x => x.Albumes).
+                Include(y => y.Artistas).ToList();
+            ViewBag.Album = _context.Albumes.Where(o => o.Id == idAlbum).FirstOrDefault();
+            ViewBag.PlayListas = _context.PlayListas.Where(u => u.IdUsuario == LoggedUser().Id);
+            //ViewBag.artista2 = _context.Artistas.Where(o => o.Id == id).FirstOrDefault();
+
+            return PartialView(new PlayList());
+        }
+        [HttpGet]
+        public IActionResult Conocenos()
+        {
+            ViewBag.fotoPerfil = _context.Usuarios.Where(w => w.Id == LoggedUser().Id).FirstOrDefault();
+            ViewData["Message"] = LoggedUser().Nombre;
+            ViewBag.ListPLayMenu = _context.PlayListas.Where(q => q.IdUsuario == LoggedUser().Id).ToList();
+            
+            return PartialView(new PlayList());
+        }
+        //[HttpGet]
+        //public ActionResult Edit()
+        //{
+        //    Console.WriteLine(LoggedUser().Id);
+        //    var usuario = _context.Usuarios.Where(o => o.Id == LoggedUser().Id).FirstOrDefault(); // si no lo encuentra retorna un null
+        //    return View("Edit", usuario);
+        //}
+        //[HttpPost]
+        //public ActionResult Edit(Usuario usuario, IFormFile image)
+        //{
+        //    usuario.FecDeCreacion = LoggedUser().FecDeCreacion;
+        //    if (usuario.Imagen != null && usuario.Imagen.Length > 0)
+        //    {
+        //        var basePath = _hostEnv.ContentRootPath + @"\wwwroot";
+        //        var ruta = @"\Images\" + image.FileName;
+        //        using (var strem = new FileStream(basePath + ruta, FileMode.Create))
+        //        {
+        //            image.CopyTo(strem);
+        //            usuario.Imagen = ruta;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        usuario.Imagen = LoggedUser().Imagen;
+
+        //    }
+
+        //    if (usuario.Pass == CreateHash(usuario.Pass))
+        //        usuario.Pass = LoggedUser().Pass;
+        //    else
+        //        usuario.Pass = CreateHash(usuario.Pass);
+        //    Console.WriteLine(usuario.Id);
+        //    Console.WriteLine(usuario.Nick);
+        //    Console.WriteLine(usuario.Nombre);
+        //    Console.WriteLine(usuario.Apellido);
+        //    Console.WriteLine(usuario.FecDeCreacion);
+        //    Console.WriteLine(usuario.Imagen);
+        //    Console.WriteLine(usuario.Pass);
+        //    Console.WriteLine(usuario.Correo);
+
+        //    // no se xde cuenta.UserId = LoggedUser().Id;
+        //    if (ModelState.IsValid)
+        //    {
+        //        // Guardar archivos rn rl servidor:
+
+
+        //        _context.Usuarios.Update(usuario);
+        //        _context.SaveChanges();
+        //        return RedirectToAction("Interface");
+        //    }
+        //    else
+        //    {
+        //        var usuario2 = _context.Usuarios.Where(o => o.Id == LoggedUser().Id).FirstOrDefault(); // si no lo encuentra retorna un null
+        //        return View("Edit", usuario2);
+        //    }
+        //}
+
 
         //****validaciones de Usuario*******
         private string CreateHash(string input)

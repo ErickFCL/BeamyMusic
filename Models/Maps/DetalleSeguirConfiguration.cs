@@ -21,7 +21,7 @@ namespace BeamyMusic.DataBase.Maps
       
             builder.HasOne(o => o.Usuarios).
                 WithMany().
-                HasForeignKey(o => o.IdUsuario);
+                HasForeignKey(o => o.IdAmigo);
         }
     }
 }

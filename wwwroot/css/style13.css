@@ -1,6 +1,12 @@
-﻿
-.page-content .main .container .row table{
-    width :  80%;
+﻿h3 {
+    font-size: 34px;
+    margin-bottom: 34px;
+    border-bottom: 4px solid #e6e6e6;
+    padding-bottom: 15px;
+}
+
+.page-content .main .container .row table {
+    width: 80%;
 }
 
 .col-md-3 {
@@ -22,10 +28,12 @@
         box-shadow: none;
         transform: scale(0.98) translateY(5px);
     }
-.album-poster img {
-    width: 30px;
-    height: 30px;
-}
+
+    .album-poster img {
+        width: 30px;
+        height: 30px;
+    }
+
 .album-poster2 {
     position: relative;
     display: block;
@@ -41,17 +49,13 @@
         box-shadow: none;
         transform: scale(0.98) translateY(5px);
     }
-.album-poster2 img{
-    
-    width: 150px;
-    height: 225px;
-}
-h3 {
-    font-size: 34px;
-    margin-bottom: 34px;
-    border-bottom: 4px solid #e6e6e6;
-    padding-bottom: 15px;
-}
+
+    .album-poster2 img {
+        width: 150px;
+        height: 225px;
+    }
+
+
 
 p {
     font-size: 15px;
@@ -59,12 +63,7 @@ p {
 
 h4 {
     text-align: center;
-    font-size: 10px;
-    text-transform: uppercase;
-    margin-top: 15px;
-    font-weight: 700;
 }
-
 
 /*default is hide music player*/
 #aplayer {
@@ -84,23 +83,14 @@ h4 {
 
 
 /*MUSIC PLAYER CUSTOMIZING STYLE*/
-span {
-    color: #808080 !important;
-    font-size: 16px;
-}
-span:hover{
-    color: #fff;
-}
-.sidebar-menu span{
-    color: #fff;
-}
+
+
 .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-loaded {
     background: #e0e0e0;
     height: 4px;
 }
 
 .aplayer .aplayer-info .aplayer-controller .aplayer-bar-wrap .aplayer-bar .aplayer-played {
-    visibility: hidden;
     height: 4px;
     background-color: #2196F3 !important;
 }
@@ -120,7 +110,4 @@ span:hover{
 
 .aplayer .aplayer-info .aplayer-music {
     margin-bottom: 5px;
-    visibility: visible;
-    color: #000 !important;
 }
-

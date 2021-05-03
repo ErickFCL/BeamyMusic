@@ -107,17 +107,19 @@ namespace BeamyMusic.Controllers
         }
         //[Route("Registrar")]
         [HttpPost]
-        public ActionResult Registrar(Usuario usuario)
+        public ActionResult Registrar(Usuario usuario, string Pass2)
         {
             try
             {
 
                 validarUsuarios(usuario);
+                if (usuario.Pass != Pass2) // <-- para convalidar contraseña y confirmacion de contraseña
+                    ModelState.AddModelError("PasswordConf", "Las contraseñas no coinciden");
                 if (ModelState.IsValid)
                 {
                     var encriptar = CreateHash(usuario.Pass);
                     usuario.Pass = encriptar;
-                    usuario.Imagen = "UserNew.png";
+                    usuario.Imagen = "\\Images\\UserNew.png";
                     usuario.FecDeCreacion = DateTime.Now;
                     //var agregarUsuario = context.Add(usuario);
                     _context.Usuarios.Add(usuario);

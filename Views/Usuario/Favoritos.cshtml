@@ -8,18 +8,20 @@
    
     <link rel="stylesheet" href="~/css/style6.css" />
     <link rel="stylesheet" href="~/css/style9.css" />
-    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css'>
+
     <link rel="stylesheet" href="~/css/style08.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-    <link rel='stylesheet' href='https://cdn.plyr.io/3.5.6/plyr.css'>
-    
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css'>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+   
+   
     <style type="text/css">
+        body .all .der .container .player .large-toggle-btn .large-pause-btn {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            top: -25%;
+        }
+
+
 
         * {
             margin: 0px;
@@ -28,7 +30,6 @@
 
         #header {
             margin: auto;
-            width: 500px;
             font-family: Arial, Helvetica, sans-serif;
         }
 
@@ -37,7 +38,6 @@
         }
 
         .nav {
-            width: 500px; /*Le establecemos un ancho*/
             margin: 0 auto; /*Centramos automaticamente*/
         }
 
@@ -46,8 +46,8 @@
             }
 
             .nav li a {
-                background-color: #000;
-                color: #fff;
+                background-color: #fff;
+                color: #000000;
                 text-decoration: none;
                 padding: 10px 12px;
                 display: block;
@@ -91,13 +91,13 @@
             <nav id="sidebar" class="sidebar-wrapper">
                 <div class="sidebar-content">
                     <div class="sidebar-brand">
-                        <a href="/usuario/Interface">Beamy Music</a>
+                        <a href="/usuario/Interface" class="h-100 badge badge-light">Beamy Music</a>
                         <i class="fa fa-hand-peace-o"></i>
                         <a href="/autor/logout"><i class="fa fa-sign-out float-right"></i></a>
                     </div>
                     <div class="sidebar-header">
                         <div class="user-pic">
-                            <img class="img-responsive img-rounded" src="~/Images/userNew.png" alt="User picture">
+                            <img class="img-responsive img-rounded" src="@ViewBag.fotoPerfil.Imagen" alt="User picture">
                         </div>
                         <div class="user-info">
                             <span class="user-name">
@@ -130,9 +130,9 @@
                                 <span>General</span>
                             </li>
                             <li>
-                                <a href="/Usuario/Editar">
-                                    <i class="fa fa-cog"></i>
-                                    <span>Editar Usuario</span>
+                                <a href="/usuario/Albumes">
+                                    <i class="fa fa-book"></i>
+                                    Álbumes
                                 </a>
 
                             </li>
@@ -141,9 +141,9 @@
 
 
 
-                                <a href="#popup">
-                                    <i class="fa fa-arrow-up"></i>
-                                    <span>Subir Canción</span>
+                                <a href="/usuario/listaamigosseguidos">
+                                    <i class="fa fa-users"></i>
+                                    Amigos
                                 </a>
 
 
@@ -152,22 +152,22 @@
 
                             </li>
                             <!--<li class="sidebar-dropdown">
-                                <a href="#">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <span></span>
+                    <a href="#">
+                        <i class="fa fa-shopping-cart"></i>
+                        <span></span>
 
-                                </a>
+                    </a>
 
-                            </li>
+                </li>
 
-                            <li class="sidebar-dropdown">
-                                <a href="#">
-                                    <i class="fa fa-globe"></i>
-                                    <span>Maps</span>
-                                </a>
+                <li class="sidebar-dropdown">
+                    <a href="#">
+                        <i class="fa fa-globe"></i>
+                        <span>Maps</span>
+                    </a>
 
 
-                            </li>-->
+                </li>-->
                             <li class="header-menu">
                                 <span>Música</span>
                             </li>
@@ -184,27 +184,50 @@
                                     <span>Play List</span>
                                 </a>
                             </li>
-
+                            <li>
+                                <a href="#popup"><i class="fa fa-plus"></i>Crear Play List</a>
+                            </li>
+                            <div class="container">
+                                <li>
+                                    <div class="container">
+                                        <ul>
+                                            @{
+                                                int con = 0;
+                                            }
+                                            @foreach (var item in ViewBag.ListPLayMenu)
+                                            {
+                                                con++;
+                                                <li>
+                                                    <a href="/usuario/listaPlaylist?id=@item.Id">@con.  @item.Nombre</a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </div>
+                                </li>
+                            </div>
                         </ul>
                     </div>
                     <!-- sidebar-menu  -->
                 </div>
                 <!-- sidebar-content
-                <div class="sidebar-footer">
-                    <a href="#">
-                        <i class="fa fa-bell"></i>
-                        <span class="badge badge-pill badge-warning notification">Música gratis</span>
-                    </a>
+    <div class="sidebar-footer">
+        <a href="#">
+            <i class="fa fa-bell"></i>
+            <span class="badge badge-pill badge-warning notification">Música gratis</span>
+        </a>
 
-                    <a href="#">
-                        <i class="fa fa-cog"></i>
-                        <span class="badge-sonar"></span>
-                    </a>
-                    <a href="#">
-                        <i class="fa fa-power-off"></i>
-                    </a>
+        <a href="#">
+            <i class="fa fa-cog"></i>
+            <span class="badge-sonar"></span>
+        </a>
+        <a href="#">
+            <i class="fa fa-power-off"></i>
+        </a>
+    </div>
+         sidebar-wrapper  -->
+                <div class="sidebar-menu" align="center">
+                    <a href="/usuario/conocenos"><h1 class="h-100 badge badge-danger" style="color: #fff">CONÓCENOS</h1></a>
                 </div>
-                     sidebar-wrapper  -->
             </nav>
 
 
@@ -214,7 +237,7 @@
 
                     <!---->
                     <div class="all">
-                        
+
                         <div class="Izqui">
 
                             <div class="col-md-12">
@@ -226,7 +249,7 @@
                                     <img src="~/Img/favoritos.jpg">
                                 </div>
                                 <h4>Total:@ViewBag.favoritos.Count</h4>
-                           
+
                             </div>
 
 
@@ -245,101 +268,131 @@
                                     Your browser does not support HTML5 audio.
                                 </audio>
 
-                                <div class="player">
+                                <button style="width: 100%">
+                                    <div class="player">
 
-                                    <div class="large-toggle-btn">
-                                        <i class="large-play-btn"><span class="screen-reader-text">Large toggle button</span></i>
-                                    </div>
-                                    <!-- /.play-box -->
-
-                                    <div class="info-box">
-                                        <div class="track-info-box">
-                                            <div class="track-title-text"></div>
-                                            <div class="audio-time">
-                                                <span class="current-time">00:00</span> /
-                                                <span class="duration">00:00</span>
-                                            </div>
+                                        <div class="large-toggle-btn rounded-circle" style="background-color:#21c621">
+                                            <i class="large-play-btn  pl-1 mt-xl-n1" style="color:#fff"><span class="screen-reader-text">Large toggle button</span></i>
                                         </div>
-                                        <!-- /.info-box -->
+                                        <!-- /.play-box -->
 
-                                        <div class="progress-box">
-                                            <div class="progress-cell">
-                                                <div class="progress">
-                                                    <div class="progress-buffer"></div>
-                                                    <div class="progress-indicator"></div>
+                                        <div class="info-box">
+                                            <div class="track-info-box" style="color:#000000">
+                                                <div class="track-title-text"></div>
+                                                <div class="audio-time">
+                                                    <span class="current-time">00:00</span> /
+                                                    <span class="duration">00:00</span>
                                                 </div>
                                             </div>
+                                            <!-- /.info-box -->
+
+                                            <div class="progress-box">
+                                                <div class="progress-cell">
+                                                    <div class="progress">
+                                                        <div class="progress-buffer"></div>
+                                                        <div class="progress-indicator"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
+                                        <!-- /.progress-box -->
+
+                                        <div class="controls-box">
+                                            <i class="previous-track-btn disabled"><span class="screen-reader-text">Previous track button</span></i>
+                                            <i class="next-track-btn"><span class="screen-reader-text">Next track button</span></i>
+                                        </div>
+                                        <!-- /.controls-box -->
 
                                     </div>
-                                    <!-- /.progress-box -->
-
-                                    <div class="controls-box">
-                                        <i class="previous-track-btn disabled"><span class="screen-reader-text">Previous track button</span></i>
-                                        <i class="next-track-btn"><span class="screen-reader-text">Next track button</span></i>
-                                    </div>
-                                    <!-- /.controls-box -->
-
-                                </div>
+                                </button>
                                 <!-- /.player -->
 
-                                <div class="play-list">
-                                    @{ int n = 0;}
+                                <table class="table table-dark">
+                                    <thead>
+                                        <tr>
 
-                                    @foreach (var item2 in ViewBag.favoritos)
-                                    {
-                                        n++;
-                                        <div class="play-list-row" data-track-row=" @n">
-                                            <div class="small-toggle-btn">
-                                                <i class="small-play-btn"><span class="screen-reader-text">Small toggle button</span></i>
+                                            <th scope="col"></th>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Álbum</th>
+                                            <th scope="col">Artista</th>
+                                            <th scope="col">Duración</th>
+                                            <th scope="col">Fecha</th>
+                                            <th scope="col"></th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{ int n = 0;}
+
+                                        @foreach (var item2 in ViewBag.favoritos)
+                                        {
+                                            n++;
+                                            <div class="play-list">
+
+                                                <tr>
+
+                                                    <th scope="row"><img src="@item2.Canciones.Foto" width="50" height="50" alt="Alternate Text" /></th>
+                                                    <td>
+                                                        <div class="play-list-row" data-track-row="@n">
+                                                            <div class="small-toggle-btn">
+                                                                <i class="small-play-btn"><span class="screen-reader-text">Small toggle button</span></i>
+                                                            </div>
+                                                            <div class="track-number">
+
+                                                            </div>
+                                                            <div class="track-title">
+                                                                <a class="playlist-track" href="#" data-play-track="@n">@item2.Canciones.Nombre</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+
+                                                    <td>@item2.Canciones.Albumes.Nombre</td>
+                                                    <td>@item2.Canciones.Artistas.Nombre</td>
+                                                    <td>@item2.Canciones.Duracion</td>
+                                                    <td>@item2.Fecha</td>
+                                                    <td>
+                                                        <ul class="nav">
+
+                                                            <li>
+                                                                <a href="">...</a>
+                                                                <ul>
+                                                                    <li>
+                                                                        <a href="#">Agregar a Play List</a>
+                                                                        <ul>
+                                                                            @foreach (var item in ViewBag.PlayListas)
+                                                                            {
+                                                                                <li><a href="/usuario/AgregarAmiPlayList2?cancion=@item2.Canciones.Id&playlist=@item.Id">@item.Nombre</a></li>
+
+                                                                            }
+
+                                                                        </ul>
+                                                                    </li>
+                                                                    <li><a href="/usuario/DeleteF?idCancion=@item2.Canciones.Id">Eliminar</a></li>
+                                                                </ul>
+                                                            </li>
+
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+
+
                                             </div>
+                                        }
+                                        </tbody>
+                                </table>
+                                <!---->
 
-
-                                            <div class="track-number">
-
-                                                <label>@n</label>
-                                            </div>
-
-                                            <div class="track-title">
-                                                <a class="playlist-track" href="#" data-play-track="@item2.Canciones.Id">@item2.Canciones.Nombre / @item2.Canciones.Artistas.Nombre @item2.Canciones.Duracion</a>
-                                            </div>
-                                            <div id="header">
-                                                <nav>
-                                                    <!-- Aqui estamos iniciando la nueva etiqueta nav -->
-                                                    <ul class="nav">
-
-                                                        <li>
-                                                            <a href="">...</a>
-                                                            <ul>
-                                                                <li>
-                                                                    <a href="#">Agregar a Play List</a>
-                                                                    <ul>
-                                                                        @foreach (var item in ViewBag.PlayListas)
-                                                                        {
-                                                                            <li><a href="/usuario/AgregarAmiPlayList2?cancion=@item2.Canciones.Id&playlist=@item.Id">@item.Nombre</a></li>
-
-                                                                        }
-
-                                                                    </ul>
-                                                                </li>
-                                                                <li><a href="/usuario/DeleteF?idCancion=@item2.Canciones.Id">Eliminar</a></li>
-                                                            </ul>
-                                                        </li>
-
-                                                    </ul>
-                                                </nav><!-- Aqui estamos cerrando la nueva etiqueta nav -->
-                                            </div>
-                                        </div>
-
-                                    }
-                                </div>
+                                
 
 
 
                             </div>
                         </div>
                     </div>
-
+                    <!---->
+                    <!---->
+                    <!---->
 
                     <!---->
                 </div>
@@ -353,46 +406,48 @@
 
 
 
+
+    <script src="~/js/site2.js" asp-append-version="true"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/html5media/1.1.8/html5media.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/plyr/3.5.6/plyr.min.js'></script>
+    <script src="~/js/site5.js "></script>
+    <script src="~/js/site6.js"></script>
+
+
     <div id="popup" class="overlay">
         <div id="popupBody">
-            <h2>Subir Canción a Beamy Music</h2>
+            <h2>CREAR PLAY LIST</h2>
             <a id="cerrar" href="#">&times;</a>
             <div class="popupContent">
+
+                @{ List<BeamyMusic.Models.PlayList> playLists = ((List<BeamyMusic.Models.PlayList>)ViewBag.playList); }
+
+
 
                 <div class="container">
                     <div class="row">
 
                         <div class="col-lg-4">
                             <div class="text-lef">
-                                <form action="/usuario/interface" enctype="multipart/form-data" method="post">
-                                    <label>Subir Canción</label>
-                                    <input type="file" name="Cancion" />
-                                    <label>Subir Foto</label>
-                                    <input type="file" name="Foto" />
+                                <form action="/usuario/PlayList" enctype="multipart/form-data" method="post">
                                     <label>Nombre</label>
-                                    <input class="form-control" name="Nombre" autocomplete="off" placeholder="Ingrese nombre de la canción" minlength="3" />
-
-                                    <br />
-                                    <label>Género</label>
-                                    <input class="form-control" name="Genero" autocomplete="off" placeholder="Ingrese Género de la canción" minlength="3" />
-
-                                    <br />
-                                    <label>Duración</label>
-                                    <input type="time" class="form-control" name="Duracion" autocomplete="off" />
+                                    <input class="form-control" name="Nombre" autocomplete="off" value="@Model.Nombre" />
 
                                     <br />
 
-                                    <label>Álbum</label>
-                                    <input class="form-control" name="Album" autocomplete="off" placeholder="Ingrese nombre de la canción" minlength="3" />
+                                    <label>Estado</label>
+                                    <select name="Estado">
+                                        <option value="0">Público</option>
+                                        <option value="1">Privado</option>
+                                    </select>
 
                                     <br />
-                                    <label>Artista</label>
-                                    <input class="form-control" name="Artista" autocomplete="off" placeholder="Ingrese Género de la canción" minlength="3" />
+                                    <label>Foto </label>
+                                    <input type="file" name="Foto" />
 
                                     <br />
-
-
-                                    <button class="btn btn-success">Subir</button>
+                                    <button class="btn btn-success">Crear</button>
                                 </form>
                             </div>
                         </div>
@@ -401,12 +456,6 @@
             </div>
         </div>
     </div>
-    <script src="~/js/site2.js" asp-append-version="true"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/html5media/1.1.8/html5media.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/plyr/3.5.6/plyr.min.js'></script>
-    <script src="~/js/site5.js "></script>
-    <script src="~/js/site6.js"></script>
- 
+
 </body>
 </html>

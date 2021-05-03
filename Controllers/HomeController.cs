@@ -10,7 +10,6 @@ using ProyBeamyMusic.Models;
 
 namespace ProyBeamyMusic.Controllers
 {
-    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

@@ -67,6 +67,7 @@
 }
 
 .der {
+    background-color: #fff;
     position: relative;
     color : #fff;
     float: right;
@@ -138,12 +139,7 @@ body .all .der .container .player .large-toggle-btn {
             font: 1.5em/1.75 "FontAwesome";
         }
 
-    body .all .der .container .player .large-toggle-btn .large-pause-btn {
-        cursor: pointer;
-        display: inline-block;
-        position: relative;
-        top: -13%;
-    }
+    
 
         body .all .der .container .player .large-toggle-btn .large-pause-btn:before {
             content: "\f04c";
@@ -209,7 +205,7 @@ body .all .der .container .player .progress-box {
         }
 
             body .all .der .container .player .progress-box .progress-cell .progress .progress-buffer {
-                background: #337ab7;
+                background: #42ea12;
                 height: 100%;
                 width: 0;
             }
